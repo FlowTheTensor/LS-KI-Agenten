@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="de" data-farbschema-standard="dunkel">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Christoph Rothaug, Jakob-Preh-Schule Bad Neustadt">
+<!-- Lizenz: CC BY 4.0 – Christoph Rothaug, Jakob-Preh-Schule Bad Neustadt (ausgenommen Schullogo, Schriften; siehe README) -->
+<link rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+<title>LVL 3 · Mensch-Maschine-Schnittstellen – KI-Agenten</title>
+<meta name="description" content="Interaktive Lernseite zu KI-Agenten, Harness, Mensch-Maschine-Schnittstellen und Multiagentensystemen: Lege dem KI-Kern Level für Level sein Geschirr an.">
+<meta property="og:title" content="KI-Agenten – Geschirr für den Kern">
+<meta property="og:description" content="Das Pferd ist stark. Wer hält die Zügel? Interaktive Lernseite zu KI-Agenten, Harness und Multiagentensystemen.">
+<meta property="og:image" content="img/og-image.png">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="js/farbschema.js"></script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-text">KI-Agenten <span class="dim">–</span> Geschirr für den Kern</span>
+  </a>
+  <nav class="lvl-nav" id="lvl-nav" aria-label="Level"></nav>
+  <span class="farbschema-platz" data-farbschema-platz></span>
+</header>
+
+<a class="pinned-logo" href="https://www.bsnes.de" target="_blank" rel="noopener" title="Zur Homepage der Jakob-Preh-Schule">
+  <img src="img/logoschulecyber-klein.png" alt="Jakob-Preh-Schule">
+</a>
+
+<main id="top">
+
+<section class="level" id="lvl3" data-level="3">
+  <header class="lvl-head">
+    <span class="lvl-tag">LVL 3 // ZÜGEL</span>
+    <h2>Mensch-Maschine-Schnittstellen</h2>
+    <p class="lvl-sub">Auftrag, Freigabe, Rückfrage, Not-Aus. Wie viel Kontrolle gibst du ab?</p>
+    <figure class="img-slot banner">
+      <img src="img/lvl3-zuegel.png" alt="Behandschuhte Hände halten leuchtende Kabelzügel, davor ein Steuerpult mit Freigabehebeln und einem roten Not-Aus-Schalter" onerror="this.closest('figure').classList.add('missing')">
+      <div class="ph">img/lvl3-zuegel.png</div>
+    </figure>
+  </header>
+
+  <article class="station" id="lvl3-s1">
+    <div class="crumb">LVL 3 · Station 1 · <span class="tag">Grundlagen</span></div>
+    <h3>Die sechs Schnittstellen S0 bis S5</h3>
+    <p>Ein Agent handelt selbstständig. Trotzdem bleibt ein Mensch <strong>verantwortlich</strong>. Dafür braucht es klar definierte Stellen,
+      an denen der Mensch eingreift. Im Praxis-Repo stehen sie gesammelt in <strong>einer</strong> Datei: <code>agenten/harness/mensch.py</code>.</p>
+    <svg class="arch narrow" viewBox="0 0 660 230" role="img" aria-label="Zeitleiste: S0 Definition vor dem Lauf. Während des Laufs S1 Auftrag, S2 Freigabe, S3 Rückfrage, S4 Abbruch rund um die Agenten-Schleife. Nach dem Lauf S5 Ergebnis und Protokoll.">
+      <text x="10" y="20" class="a-title">VORHER</text><text x="200" y="20" class="a-title">WÄHREND DES LAUFS</text><text x="540" y="20" class="a-title">NACHHER</text>
+      <g class="a-gate"><rect x="10" y="80" width="130" height="56" rx="8"/><text x="75" y="104" text-anchor="middle">S0 Definition</text><text x="75" y="122" text-anchor="middle" class="a-small">Was darf er?</text></g>
+      <path d="M140 108 H170" class="a-wire"/>
+      <g class="a-human"><rect x="170" y="88" width="90" height="40" rx="8"/><text x="215" y="113" text-anchor="middle">S1 Auftrag</text></g>
+      <path d="M260 108 H300" class="a-wire"/>
+      <circle cx="360" cy="108" r="58" class="a-loop"/>
+      <circle cx="360" cy="108" r="26" class="a-llm"/>
+      <text x="360" y="113" text-anchor="middle" class="a-small">Agent</text>
+      <g class="a-gate"><rect x="300" y="190" width="120" height="34" rx="6"/><text x="360" y="212" text-anchor="middle" class="a-small">S2 Freigabe: Darf ich?</text></g>
+      <path d="M345 166 V190" class="a-wire"/><path d="M375 190 V166" class="a-wire"/>
+      <g class="a-gate"><rect x="300" y="30" width="120" height="30" rx="6"/><text x="360" y="50" text-anchor="middle" class="a-small">S3 Rückfrage</text></g>
+      <path d="M360 60 V50" class="a-wire"/>
+      <g class="a-stop"><rect x="440" y="150" width="88" height="34" rx="6"/><text x="484" y="172" text-anchor="middle" class="a-small">S4 Abbruch</text></g>
+      <path d="M440 160 L410 140" class="a-wire dashed"/>
+      <path d="M418 108 H540" class="a-wire"/>
+      <g class="a-server"><rect x="540" y="80" width="112" height="56" rx="8"/><text x="596" y="104" text-anchor="middle">S5 Ergebnis</text><text x="596" y="122" text-anchor="middle" class="a-small">+ Protokoll</text></g>
+    </svg>
+    <table class="tbl">
+      <thead><tr><th>Nr.</th><th>Schnittstelle</th><th>Richtung</th><th>Wann?</th><th>Im Code</th></tr></thead>
+      <tbody>
+        <tr><th>S0</th><td><strong>Definition</strong></td><td>Mensch → Agent</td><td>vor dem Lauf</td><td>Definitionsdatei: Rolle, Tools, Rechte, Schrittlimit</td></tr>
+        <tr><th>S1</th><td><strong>Auftrag</strong></td><td>Mensch → Agent</td><td>Start</td><td><code>mensch.auftrag_holen()</code></td></tr>
+        <tr><th>S2</th><td><strong>Freigabe</strong></td><td>Agent → Mensch → Agent</td><td>vor riskanten Aktionen</td><td><code>mensch.freigabe()</code> bei <code>tools_mit_freigabe</code></td></tr>
+        <tr><th>S3</th><td><strong>Rückfrage</strong></td><td>Agent → Mensch → Agent</td><td>bei Unklarheit</td><td>Tool <code>frage_mensch</code></td></tr>
+        <tr><th>S4</th><td><strong>Abbruch</strong></td><td>Mensch/Harness → Agent</td><td>jederzeit</td><td>Strg+C, <code>max_schritte</code></td></tr>
+        <tr><th>S5</th><td><strong>Ergebnis &amp; Protokoll</strong></td><td>Agent → Mensch</td><td>Ende und danach</td><td><code>mensch.ergebnis_zeigen()</code>, <code>protokolle/*.jsonl</code></td></tr>
+      </tbody>
+    </table>
+    <p>Im Protokoll erkennst du jede Schnittstelle an ihrem Etikett:</p>
+<pre class="log">[MENSCH ] Auftrag: Trage für Werner aus der 7a eine 2,0 in Mathe ein.
+[AGENT  ] ❓ notenverwalter fragt dich: Es gibt Paul und Emma Werner. Wen meinst du?
+[MENSCH ] Antwort: Emma
+[HARNESS] ⚠ FREIGABE NÖTIG: Agent 'notenverwalter' möchte 'add_grade' aufrufen mit {"schueler_id": 11, …}
+[MENSCH ] Freigabe erteilt ✔
+[FEHLER ] Harness blockiert: 'notenverwalter' darf 'delete_grade' nicht benutzen.</pre>
+  </article>
+
+  <article class="station" id="lvl3-s2">
+    <div class="crumb">LVL 3 · Station 2 · <span class="tag">Interaktiv</span></div>
+    <h3>Der Autonomie-Regler</h3>
+    <p>Wie viel Kontrolle der Mensch abgibt, ist eine <strong>bewusste Entscheidung</strong>. Dieselbe Aufgabe läuft je nach Stufe ganz anders ab:
+      <em>„Trage für Werner aus der 7a eine 2,0 in Mathematik als Schulaufgabe ein.“</em> (Es gibt zwei Werner in der 7a.)</p>
+    <div class="widget" id="autonomie">
+      <label class="au-regler">Autonomiestufe <input type="range" id="au-stufe" min="0" max="4" value="2" aria-label="Autonomiestufe 0 bis 4"> <output id="au-name"></output></label>
+      <div class="au-skala"><span>0 Chatbot</span><span>1 Assistent</span><span>2 in the Loop</span><span>3 on the Loop</span><span>4 out of the Loop</span></div>
+      <div class="grid3 au-werte">
+        <div class="card"><h4>Rolle des Menschen</h4><p id="au-mensch"></p></div>
+        <div class="card"><h4>Arbeit für den Menschen</h4><div class="meter" id="au-aufwand"><i></i></div></div>
+        <div class="card"><h4>Risiko</h4><div class="meter risk" id="au-risiko"><i></i></div></div>
+      </div>
+      <div class="row"><button class="btn" id="au-start">Auftrag ausführen ▸</button><button class="btn notaus" id="au-notaus" disabled>■ NOT-AUS (S4)</button></div>
+      <div class="dbl-frage" id="au-frage" hidden></div>
+      <div class="term-log log" id="au-log" aria-live="polite"></div>
+      <div id="au-fazit"></div>
+    </div>
+    <details class="tasks" open>
+      <summary>Aufträge</summary>
+      <ol>
+        <li>Führe den Auftrag auf jeder Stufe aus. Notiere: Wie oft greift der Mensch ein? Wer hat am Ende welche Note?</li>
+        <li>Stufe 3: Schaffst du es, den Agenten mit dem <strong>Not-Aus</strong> zu stoppen, bevor die Note geschrieben ist?</li>
+        <li>Stufe 2: Wähle bei der Rückfrage absichtlich den falschen Werner und gib frei. Wer ist jetzt verantwortlich?</li>
+        <li>Auf welche Stufe würdest du einen Agenten setzen, der <strong>Zeugnisnoten</strong> berechnet? Und einen, der den Vertretungsplan verschickt? Begründe.</li>
+      </ol>
+    </details>
+    <table class="tbl">
+      <thead><tr><th>Stufe</th><th>Name</th><th>Wer handelt?</th><th>Rolle des Menschen</th><th>Im Praxis-Repo</th></tr></thead>
+      <tbody>
+        <tr><th>0</th><td>Chatbot</td><td>niemand</td><td>liest Antworten</td><td>LLM ohne Tools</td></tr>
+        <tr><th>1</th><td>Assistent</td><td>Mensch</td><td>führt Vorschläge selbst aus</td><td>LLM schlägt SQL vor, du tippst sie ab</td></tr>
+        <tr><th>2</th><td>Human-in-the-Loop</td><td>Agent</td><td>gibt jede riskante Aktion frei</td><td><code>notenverwalter</code></td></tr>
+        <tr><th>3</th><td>Human-on-the-Loop</td><td>Agent</td><td>beobachtet, kann abbrechen</td><td><code>notenverwalter --alles-erlauben</code></td></tr>
+        <tr><th>4</th><td>Human-out-of-the-Loop</td><td>Agent</td><td>nicht beteiligt</td><td>bewusst nicht vorgesehen</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Je höher die Stufe, desto <strong>bequemer</strong>, aber desto <strong>größer das Risiko</strong>. Umso wichtiger werden S0 (gute Grenzen) und S5 (gutes Protokoll).
+      Im Projekt gilt: <strong>Lesen frei, Schreiben nur mit Freigabe, Löschen gibt es gar nicht als Tool.</strong></p>
+  </article>
+
+  <article class="station" id="lvl3-s3">
+    <div class="crumb">LVL 3 · Station 3 · <span class="tag">Interaktiv</span></div>
+    <h3>Freigabe-Ermüdung</h3>
+    <p>Der <code>notenverwalter</code> trägt die mündlichen Noten der 7a ein. Für jede Note fragt er dich um Freigabe.
+      <strong>Eine</strong> der zehn Freigaben ist falsch. Vergleiche mit der Notenliste und entscheide.</p>
+    <div class="widget" id="ermuedung">
+      <div class="row">
+        <div class="toggle-row" id="er-modus"><button class="btn small sel" data-m="ids">Anzeige wie im Harness (IDs)</button><button class="btn small" data-m="namen">Anzeige mit Namen</button></div>
+      </div>
+      <div class="grid2 er-grid">
+        <div class="card"><h4>📋 Notenliste der Lehrkraft</h4><table class="ad-tab" id="er-liste"></table></div>
+        <div><div class="er-dialog" id="er-dialog"></div><p class="readout" id="er-stand"></p></div>
+      </div>
+      <div id="er-fazit"></div>
+    </div>
+    <p class="warn"><strong>Gefahr der Gewöhnung:</strong> Wer 50-mal hintereinander „ja“ drückt, liest irgendwann nicht mehr hin.
+      Zu viele Freigaben sind fast so schlecht wie keine. Und eine Freigabe ist nur so gut wie das, was der Mensch dabei <strong>sieht</strong>.</p>
+    <p>Wie eine bessere Freigabe aussieht, hast du in der MCP-LS schon ausprobiert:
+      <a href="https://flowthetensor.github.io/LS-MCP-USB-fuer-KI/lvl4.html#lvl4-s5" target="_blank" rel="noopener">Freigabe mit eigener Oberfläche (MCP App)</a>.
+      Sie zeigt Namen statt IDs und lässt dich bei zwei Treffern selbst wählen.</p>
+  </article>
+
+  <article class="station" id="lvl3-s4">
+    <div class="crumb">LVL 3 · Station 4 · <span class="tag">Vertiefung</span></div>
+    <h3>Wer baut die Oberfläche? MCP Apps und A2UI</h3>
+    <p>Die meisten Schnittstellen sind Text: Auftrag tippen, „j“ drücken, Protokoll lesen. Agenten können dem Menschen aber auch
+      <strong>Oberflächen</strong> zeigen: Tabellen, Formulare, Knöpfe. Dafür gibt es zwei verschiedene Ansätze.</p>
+    <table class="tbl">
+      <thead><tr><th></th><th>MCP Apps</th><th>A2UI (Agent-to-User Interface, Google)</th></tr></thead>
+      <tbody>
+        <tr><th>Wer legt die Oberfläche fest?</th><td>ein <strong>Programmierer</strong>, vorher</td><td>das <strong>LLM</strong>, zur Laufzeit</td></tr>
+        <tr><th>Was wird übertragen?</th><td>eine fertige HTML-Seite (<code>ui://</code>-Ressource)</td><td>eine Beschreibung als JSON: „eine Karte, darin eine Überschrift und zwei Knöpfe …“</td></tr>
+        <tr><th>Wer zeichnet sie?</th><td>der Browser im abgeschotteten iframe</td><td>der Client, mit <strong>eigenen, vertrauenswürdigen</strong> Bausteinen aus einem festen Katalog</td></tr>
+        <tr><th>Wird fremder Code ausgeführt?</th><td>ja, das JavaScript der App (deshalb Sandbox und CSP)</td><td>nein, nur Daten</td></tr>
+        <tr><th>Vergleichbar mit</th><td><strong>Workflow</strong>: fester Ablauf</td><td><strong>Agent</strong>: entscheidet selbst</td></tr>
+      </tbody>
+    </table>
+<pre class="json">{
+  "surfaceUpdate": {
+    "components": [
+      { "id": "karte",  "component": { "Card":   { "child": "spalte" } } },
+      { "id": "spalte", "component": { "Column": { "children": ["frage", "ja", "nein"] } } },
+      { "id": "frage",  "component": { "Text":   { "text": "Note 2,0 für Emma Werner eintragen?" } } },
+      { "id": "ja",     "component": { "Button": { "label": "Eintragen", "action": "note_freigeben" } } },
+      { "id": "nein",   "component": { "Button": { "label": "Abbrechen", "action": "abbrechen" } } }
+    ]
+  }
+}</pre>
+    <p class="dim">Vereinfachtes Beispiel im Stil von A2UI. Die genaue Schreibweise ändert sich mit den Versionen des Formats.</p>
+    <details class="tasks">
+      <summary>Code deuten</summary>
+      <ol>
+        <li>Welche Bausteine (Komponenten) kommen vor? Wie hängen sie zusammen (<code>child</code>, <code>children</code>)?</li>
+        <li>Das LLM vertauscht die beiden <code>action</code>-Werte. Was sieht der Mensch, und was passiert beim Klick auf „Abbrechen“?</li>
+        <li>Wer muss deshalb prüfen, ob die Aktion hinter einem Knopf zur Beschriftung passt?</li>
+      </ol>
+    </details>
+    <p class="note"><strong>Merke:</strong> Eine Freigabe ist nur so gut wie die Anzeige, auf der sie beruht. Wer die Oberfläche baut, hat Einfluss darauf, was der Mensch freigibt.
+      Bei MCP Apps kann man die Freigabe-Seite vorher prüfen. Bei A2UI denkt sich das LLM die Seite jedes Mal neu aus. Der feste Katalog begrenzt, <em>was</em> gebaut werden kann,
+      aber nicht, <em>welche Aktion</em> hinter einem Knopf liegt. Das muss der Harness prüfen.</p>
+  </article>
+
+  <article class="station" id="lvl3-s5">
+    <div class="crumb">LVL 3 · Station 5 · <span class="tag">Vertiefung</span></div>
+    <h3>Wer ist verantwortlich?</h3>
+    <p>Ein Agent kann nicht verantwortlich sein, er ist ein Programm. Verantwortlich sind Menschen, und zwar an verschiedenen Stellen:</p>
+    <div class="grid2">
+      <div class="card"><h4>S0 · Wer den Agenten definiert</h4><p>Welche Rechte wurden vergeben? War <code>add_grade</code> wirklich nötig?</p></div>
+      <div class="card"><h4>Harness · Wer ihn programmiert</h4><p>Werden die Rechte im Code wirklich erzwungen, oder stehen sie nur im Prompt?</p></div>
+      <div class="card"><h4>S2 · Wer freigibt</h4><p>Wurde die Aktion geprüft, oder nur „j“ gedrückt?</p></div>
+      <div class="card"><h4>S5 · Wer das Ergebnis verwendet</h4><p>Wurde das Ergebnis kontrolliert, bevor es in den Elternbrief ging?</p></div>
+    </div>
+    <details class="tasks">
+      <summary>Diskussion</summary>
+      <ol>
+        <li>Ein Agent trägt eine falsche Note ein, nachdem du „j“ gedrückt hast. Wer ist verantwortlich? Begründe mit S0 bis S5.</li>
+        <li>Beim Lauf mit <code>--modell anthropic</code> gehen Abfrageergebnisse an den Anbieter. Mit echten Schülerdaten wäre das unzulässig. An welcher Schnittstelle wird diese Entscheidung getroffen?</li>
+        <li>Die EU-KI-Verordnung verlangt für bestimmte KI-Systeme menschliche Aufsicht. Welche Autonomiestufen passen dazu, welche nicht?</li>
+      </ol>
+    </details>
+  </article>
+
+  <div class="test" data-level="3"></div>
+</section>
+
+<nav class="pager" aria-label="Level wechseln">
+  <a href="lvl2.html">◂ LVL 2</a>
+  <a href="index.html">Übersicht</a>
+  <a href="lvl4.html">LVL 4 ▸</a>
+</nav>
+
+</main>
+
+<footer class="foot">
+  <p>KI-Agenten – Geschirr für den Kern · Ein Lernangebot der Jakob-Preh-Schule · Fortsetzung von
+    <a href="https://flowthetensor.github.io/LS-MCP-USB-fuer-KI/" target="_blank" rel="noopener">MCP – USB für KI</a></p>
+  <p>Quellen: <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Building effective agents</a>,
+    <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">modelcontextprotocol.io</a>,
+    <a href="https://a2a-protocol.org" target="_blank" rel="noopener">a2a-protocol.org</a>,
+    <a href="https://github.com/google/A2UI" target="_blank" rel="noopener">A2UI</a>,
+    <a href="https://github.com/FlowTheTensor/SQLite-per-MCP" target="_blank" rel="noopener">SQLite-per-MCP</a></p>
+  <p>Der Fortschritt wird nur in diesem Browser gespeichert. <button class="linkbtn" id="reset-progress">Fortschritt zurücksetzen</button></p>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/tests.js"></script>
+<script src="js/agentsim.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

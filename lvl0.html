@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="de" data-farbschema-standard="dunkel">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Christoph Rothaug, Jakob-Preh-Schule Bad Neustadt">
+<!-- Lizenz: CC BY 4.0 – Christoph Rothaug, Jakob-Preh-Schule Bad Neustadt (ausgenommen Schullogo, Schriften; siehe README) -->
+<link rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+<title>LVL 0 · Das Pferd ohne Geschirr – KI-Agenten</title>
+<meta name="description" content="Interaktive Lernseite zu KI-Agenten, Harness, Mensch-Maschine-Schnittstellen und Multiagentensystemen: Lege dem KI-Kern Level für Level sein Geschirr an.">
+<meta property="og:title" content="KI-Agenten – Geschirr für den Kern">
+<meta property="og:description" content="Das Pferd ist stark. Wer hält die Zügel? Interaktive Lernseite zu KI-Agenten, Harness und Multiagentensystemen.">
+<meta property="og:image" content="img/og-image.png">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="js/farbschema.js"></script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-text">KI-Agenten <span class="dim">–</span> Geschirr für den Kern</span>
+  </a>
+  <nav class="lvl-nav" id="lvl-nav" aria-label="Level"></nav>
+  <span class="farbschema-platz" data-farbschema-platz></span>
+</header>
+
+<a class="pinned-logo" href="https://www.bsnes.de" target="_blank" rel="noopener" title="Zur Homepage der Jakob-Preh-Schule">
+  <img src="img/logoschulecyber-klein.png" alt="Jakob-Preh-Schule">
+</a>
+
+<main id="top">
+
+<section class="level" id="lvl0" data-level="0">
+  <header class="lvl-head">
+    <span class="lvl-tag">LVL 0 // UNGEZÄHMT</span>
+    <h2>Das Pferd ohne Geschirr</h2>
+    <p class="lvl-sub">Was ein LLM kann, was nicht, und was es bei jedem Aufruf wirklich sieht.</p>
+    <figure class="img-slot banner">
+      <img src="img/lvl0-ungezaehmt.png" alt="Ein mechanisches Pferd ohne Geschirr bäumt sich in einer dunklen Maschinenhalle auf, lose Kabel hängen herab" onerror="this.closest('figure').classList.add('missing')">
+      <div class="ph">img/lvl0-ungezaehmt.png</div>
+    </figure>
+  </header>
+
+  <article class="station" id="lvl0-s1">
+    <div class="crumb">LVL 0 · Station 1 · <span class="tag">Grundlagen</span></div>
+    <h3>Pferd, Geschirr, Kutscher</h3>
+    <p>In <a href="https://flowthetensor.github.io/LS-MCP-USB-fuer-KI/" target="_blank" rel="noopener">„MCP – USB für KI“</a> hast du den KI-Kern über MCP mit Werkzeugen verbunden.
+      Am Ende stand „SYSTEM ONLINE“. Trotzdem passiert noch nichts von allein. Warum?</p>
+    <p>Das englische Wort <strong>harness</strong> bedeutet <strong>Geschirr</strong>, das Zaumzeug eines Zugpferds. Das Bild passt erstaunlich gut:</p>
+    <table class="tbl">
+      <thead><tr><th></th><th>Pferdekutsche</th><th>KI-Agent</th></tr></thead>
+      <tbody>
+        <tr><th>Kraft</th><td>Das <strong>Pferd</strong> ist stark, weiß aber nicht, wohin die Fahrt geht.</td><td>Das <strong>LLM</strong> ist stark in Sprache, kann aber selbst nichts ausführen.</td></tr>
+        <tr><th>Lenkung</th><td>Das <strong>Geschirr</strong> überträgt die Kraft auf den Wagen und begrenzt, wohin das Pferd kann.</td><td>Der <strong>Harness</strong> verbindet das LLM mit Tools und begrenzt, was es darf.</td></tr>
+        <tr><th>Verantwortung</th><td>Der <strong>Kutscher</strong> gibt das Ziel vor, hält die Zügel und kann bremsen.</td><td>Der <strong>Mensch</strong> erteilt den Auftrag, gibt Aktionen frei und kann abbrechen.</td></tr>
+        <tr><th>Ladung</th><td>Der <strong>Wagen</strong> mit dem, was bewegt werden soll</td><td>Die <strong>Tools und Daten</strong>: MCP-Server, Datenbank</td></tr>
+      </tbody>
+    </table>
+    <p class="note"><strong>Merksatz:</strong> Ein starkes Pferd ohne Geschirr ist nutzlos oder gefährlich. Genauso ist es mit einem LLM ohne Harness.</p>
+    <p>Zwei Eigenschaften des LLM musst du dir merken, sie erklären fast alles in dieser Lernsituation:</p>
+    <div class="grid2">
+      <div class="card bad"><h4>✗ Es kann nichts ausführen</h4><p>Ein LLM erzeugt nur Text. Will es ein Tool benutzen, schreibt es einen <strong>Tool-Wunsch</strong> auf.
+        Ausgeführt wird der Wunsch von einem anderen Programm, oder eben nicht.</p></div>
+      <div class="card bad"><h4>✗ Es merkt sich nichts</h4><p>Jeder Aufruf ist für das LLM der erste. Was vorher geschah, weiß es nur, wenn man es ihm <strong>wieder mitschickt</strong>.</p></div>
+    </div>
+  </article>
+
+  <article class="station" id="lvl0-s2">
+    <div class="crumb">LVL 0 · Station 2 · <span class="tag">Interaktiv</span></div>
+    <h3>Was sieht das LLM?</h3>
+    <p>Bei <strong>jedem</strong> Aufruf schickt der Harness dem LLM ein Paket aus drei Teilen. Das LLM sieht nichts anderes.
+      Hier fragt jemand: <em>„Wie viele Schüler hat die Klasse 7a?“</em> Der Agent braucht dafür drei Aufrufe.</p>
+    <div class="widget" id="kontext">
+      <div class="row kx-bar">
+        <div class="toggle-row" id="kx-schritte">
+          <button class="btn small">Aufruf 1</button><button class="btn small">Aufruf 2</button><button class="btn small">Aufruf 3</button>
+        </div>
+        <label class="switch"><input type="checkbox" id="kx-verlauf" checked> Harness schickt den Verlauf mit</label>
+      </div>
+      <div class="kx-paket">
+        <div class="kx-box"><div class="kx-head">① SYSTEM-PROMPT · Rolle und Regeln</div><pre id="kx-sys"></pre></div>
+        <div class="kx-box"><div class="kx-head">② VERLAUF · alle bisherigen Nachrichten</div><div id="kx-liste"></div></div>
+        <div class="kx-box"><div class="kx-head">③ TOOLLISTE · Name, Parameter, Beschreibung</div><div id="kx-tools"></div></div>
+      </div>
+      <p class="readout" id="kx-tokens"></p>
+      <div class="kx-antwort"><div class="kx-head">⟶ ANTWORT DES LLM</div><pre id="kx-antwort"></pre></div>
+    </div>
+    <details class="tasks" open>
+      <summary>Aufträge</summary>
+      <ol>
+        <li>Klicke dich durch die drei Aufrufe. Wie wächst der Verlauf? Wie wächst die Zahl der Tokens?</li>
+        <li>Schalte „Harness schickt den Verlauf mit“ aus. Was antwortet das LLM jetzt bei Aufruf 2 und 3? Erkläre.</li>
+        <li>Woher weiß das LLM, welche Spalten die Tabelle <code>schueler</code> hat? Es „sieht“ die Datenbank doch nie.</li>
+        <li>Der System-Prompt hat zwei Teile. Welcher stammt aus der Definitionsdatei, welcher wurde vom Harness ergänzt?</li>
+      </ol>
+    </details>
+    <p class="note"><strong>Darum kostet jeder Schritt mehr:</strong> Weil das LLM sich nichts merkt, muss der Harness den
+      kompletten Verlauf jedes Mal neu mitschicken. Bezahlt wird pro Token, also pro Textstück (Faustregel: 4 Zeichen ≈ 1 Token).
+      System-Prompt und Toolliste werden bei jedem Aufruf erneut bezahlt.</p>
+  </article>
+
+  <article class="station" id="lvl0-s3">
+    <div class="crumb">LVL 0 · Station 3 · <span class="tag">Grundlagen</span></div>
+    <h3>Die Bausteine und ihre Schichten</h3>
+    <table class="tbl">
+      <thead><tr><th>Begriff</th><th>Definition (zum Merken)</th><th>Im Praxis-Repo</th></tr></thead>
+      <tbody>
+        <tr><th>LLM</th><td>Programm, das zu einem Text die wahrscheinlichste Fortsetzung erzeugt. Kann nichts ausführen, merkt sich nichts.</td><td>Claude, Qwen über Ollama, oder du selbst (<code>--modell mensch</code>)</td></tr>
+        <tr><th>Tool</th><td>Eine normale Funktion. Das LLM sieht nur Name, Beschreibung und Parameter.</td><td><code>query_database</code>, <code>add_grade</code> …</td></tr>
+        <tr><th>MCP</th><td>Offener Standard, <em>wie</em> Tools angeboten (Server) und aufgerufen (Client) werden.</td><td><code>src/index.py</code> ist der MCP-Server</td></tr>
+        <tr><th>Harness</th><td>Rahmenprogramm um das LLM: baut den Kontext, ruft das LLM auf, prüft und führt Tool-Wünsche aus, setzt Grenzen, spricht mit dem Menschen.</td><td>Claude Desktop, Claude Code, n8n oder <code>agenten/harness/</code></td></tr>
+        <tr><th>Agent</th><td>System, in dem ein LLM <strong>in einer Schleife selbst entscheidet</strong>, welche Tools es nutzt, um ein <strong>Ziel</strong> zu erreichen.</td><td><code>datenbank-analyst</code>, <code>notenverwalter</code></td></tr>
+        <tr><th>Multiagentensystem</th><td>Mehrere Agenten mit eigener Rolle, eigenem Kontext und eigenen Rechten lösen gemeinsam eine Aufgabe.</td><td><code>koordinator</code> und Spezialisten</td></tr>
+      </tbody>
+    </table>
+<pre class="formel">Agent  =  LLM  +  Tools  +  Schleife  +  Ziel        (und Grenzen, die der Harness setzt)</pre>
+    <p>Fehlt die Schleife, ist es ein <strong>Chatbot</strong>. Fehlen die Tools, kann der Agent nur reden. Fehlt das Ziel, weiß er nicht, wann er fertig ist.</p>
+    <svg class="arch narrow" viewBox="0 0 640 330" role="img" aria-label="Schichtenmodell: Der Mensch spricht nur mit dem Harness. Der Harness spricht über HTTP mit dem LLM und über MCP mit dem Server. Nur der Server greift per SQL auf die Datenbank zu.">
+      <g class="a-human"><rect x="200" y="10" width="240" height="44" rx="8"/><text x="320" y="37" text-anchor="middle">👤 MENSCH · Auftrag, Freigabe, Abbruch</text></g>
+      <path d="M320 54 V84" class="a-wire"/>
+      <text x="330" y="74" class="a-small">Auftrag / Ergebnis / Freigabe</text>
+      <rect x="120" y="84" width="400" height="120" rx="10" class="a-host"/>
+      <text x="136" y="106" class="a-title">⛓ HARNESS</text>
+      <g class="a-gate"><rect x="140" y="118" width="110" height="34" rx="6"/><text x="195" y="140" text-anchor="middle" class="a-small">Kontext bauen</text></g>
+      <g class="a-gate"><rect x="265" y="118" width="110" height="34" rx="6"/><text x="320" y="140" text-anchor="middle" class="a-small">Schleife</text></g>
+      <g class="a-gate"><rect x="390" y="118" width="110" height="34" rx="6"/><text x="445" y="140" text-anchor="middle" class="a-small">Rechte, Freigaben</text></g>
+      <g class="a-gate"><rect x="265" y="160" width="110" height="34" rx="6"/><text x="320" y="182" text-anchor="middle" class="a-small">Protokoll</text></g>
+      <path d="M120 150 H70 V240" class="a-wire"/>
+      <text x="20" y="226" class="a-small">HTTP</text>
+      <rect x="10" y="240" width="130" height="70" rx="10" class="a-llm"/>
+      <text x="75" y="270" text-anchor="middle" class="a-lbl">LLM</text>
+      <text x="75" y="292" text-anchor="middle" class="a-small">Text oder Tool-Wunsch</text>
+      <path d="M520 150 H570 V230" class="a-wire"/>
+      <text x="580" y="200" class="a-small">MCP</text>
+      <g class="a-server"><rect x="500" y="230" width="135" height="40" rx="6"/><text x="567" y="255" text-anchor="middle">MCP-Server</text></g>
+      <path d="M567 270 V290" class="a-wire"/>
+      <g class="a-server"><rect x="510" y="290" width="115" height="34" rx="6"/><text x="567" y="312" text-anchor="middle">schule.db</text></g>
+      <text x="200" y="262" class="a-small">✗ keine direkte Verbindung LLM ↔ Datenbank</text>
+      <path d="M145 275 H495" class="a-wire dashed a-nolink"/>
+    </svg>
+    <p class="note"><strong>Merke:</strong> Das LLM hat <strong>keine direkte Verbindung</strong> zur Datenbank. Jeder Zugriff läuft über den Harness.
+      Deshalb kann der Harness auch alles kontrollieren. Wie das genau geht, zeigt <a href="lvl2.html">LVL 2</a>.</p>
+    <p>In der MCP-LS hast du in <a href="https://flowthetensor.github.io/LS-MCP-USB-fuer-KI/lvl4.html#lvl4-s3" target="_blank" rel="noopener">LVL 4, Station 3</a>
+      schon gesehen: <em>Host</em> ist der Begriff aus der MCP-Spezifikation (das Programm mit den Clients), <em>Harness</em> der Begriff aus der Agenten-Technik
+      (die Steuerlogik darin). Claude Code ist beides zugleich.</p>
+  </article>
+
+  <div class="test" data-level="0"></div>
+</section>
+
+<nav class="pager" aria-label="Level wechseln">
+  <a href="index.html">◂ Start</a>
+  <a href="index.html">Übersicht</a>
+  <a href="lvl1.html">LVL 1 ▸</a>
+</nav>
+
+</main>
+
+<footer class="foot">
+  <p>KI-Agenten – Geschirr für den Kern · Ein Lernangebot der Jakob-Preh-Schule · Fortsetzung von
+    <a href="https://flowthetensor.github.io/LS-MCP-USB-fuer-KI/" target="_blank" rel="noopener">MCP – USB für KI</a></p>
+  <p>Quellen: <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Building effective agents</a>,
+    <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">modelcontextprotocol.io</a>,
+    <a href="https://a2a-protocol.org" target="_blank" rel="noopener">a2a-protocol.org</a>,
+    <a href="https://github.com/google/A2UI" target="_blank" rel="noopener">A2UI</a>,
+    <a href="https://github.com/FlowTheTensor/SQLite-per-MCP" target="_blank" rel="noopener">SQLite-per-MCP</a></p>
+  <p>Der Fortschritt wird nur in diesem Browser gespeichert. <button class="linkbtn" id="reset-progress">Fortschritt zurücksetzen</button></p>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/tests.js"></script>
+<script src="js/agentsim.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

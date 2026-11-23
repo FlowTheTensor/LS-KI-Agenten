@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="de" data-farbschema-standard="dunkel">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Christoph Rothaug, Jakob-Preh-Schule Bad Neustadt">
+<!-- Lizenz: CC BY 4.0 – Christoph Rothaug, Jakob-Preh-Schule Bad Neustadt (ausgenommen Schullogo, Schriften; siehe README) -->
+<link rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+<title>KI-Agenten – Geschirr für den Kern</title>
+<meta name="description" content="Interaktive Lernseite zu KI-Agenten, Harness, Mensch-Maschine-Schnittstellen und Multiagentensystemen: Lege dem KI-Kern Level für Level sein Geschirr an.">
+<meta property="og:title" content="KI-Agenten – Geschirr für den Kern">
+<meta property="og:description" content="Das Pferd ist stark. Wer hält die Zügel? Interaktive Lernseite zu KI-Agenten, Harness und Multiagentensystemen.">
+<meta property="og:image" content="img/og-image.png">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="js/farbschema.js"></script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= BOOT-SCREEN ================= -->
+<div id="boot" class="boot" aria-hidden="true">
+  <pre id="boot-text"></pre>
+  <button id="boot-skip" class="btn ghost">[ ENTER ] Geschirr anlegen</button>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-text">KI-Agenten <span class="dim">–</span> Geschirr für den Kern</span>
+  </a>
+  <nav class="lvl-nav" id="lvl-nav" aria-label="Level"></nav>
+  <span class="farbschema-platz" data-farbschema-platz></span>
+</header>
+
+<a class="pinned-logo" href="https://www.bsnes.de" target="_blank" rel="noopener" title="Zur Homepage der Jakob-Preh-Schule">
+  <img src="img/logoschulecyber-klein.png" alt="Jakob-Preh-Schule">
+</a>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <figure class="img-slot hero-img">
+    <img src="img/hero.png" alt="Ein mechanisches Pferd aus dunklem Metall mit leuchtendem KI-Kern in der Brust, Zügel aus Kabeln führen zu einem leeren Kutschbock" onerror="this.closest('figure').classList.add('missing')">
+    <div class="ph">img/hero.png</div>
+  </figure>
+  <div class="hero-text">
+    <p class="sys-line">&gt; STATUS: <span id="status-line">KERN OHNE GESCHIRR – 0/6 GURTE ANGELEGT</span></p>
+    <h1 class="glitch" data-text="KI-Agenten">KI-Agenten</h1>
+    <p class="lead">Das Pferd ist stark. Wer hält die Zügel?</p>
+    <p>Der KI-Kern ist über MCP mit Werkzeugen und Daten verbunden. Aber ein Sprachmodell <strong>kann selbst nichts ausführen</strong>
+      und <strong>merkt sich nichts</strong>. Erst ein Rahmenprogramm, der <strong>Harness</strong> (englisch: Geschirr), macht daraus einen <strong>Agenten</strong>:
+      Es lenkt die Kraft, setzt Grenzen und gibt dem Menschen die Zügel in die Hand.</p>
+    <p>In sechs Leveln legst du dem Kern sein Geschirr an. Dabei geht es um drei Fragen:
+      <strong>Wer entscheidet? Wer darf was? Wer ist verantwortlich?</strong>
+      Jedes Level endet mit einem <strong>Clearance-Test</strong>: <strong>5 Fragen in Folge</strong> richtig, dann sitzt der Gurt.</p>
+    <p class="note" id="mcp-status"></p>
+    <div class="row"><a class="btn" id="start-btn" href="lvl0.html">Geschirr anlegen ▸</a></div>
+  </div>
+  <div class="core-wrap">
+    <svg id="core-svg" viewBox="0 0 400 400" role="img" aria-label="Schaltbild: KI-Kern mit sechs Gurten des Geschirrs"></svg>
+  </div>
+</section>
+
+<!-- ================= LEITBILD ================= -->
+<section class="overview">
+  <h2>Pferd, Geschirr, Kutscher</h2>
+  <p>Das Bild begleitet dich durch alle Level:</p>
+  <div class="grid3 bild-grid">
+    <div class="card bild"><span class="bild-ico" aria-hidden="true">🐎</span><h4>Pferd = LLM</h4><p>Stark in Sprache, weiß aber nicht, wohin die Fahrt geht, und kann selbst nichts ausführen.</p></div>
+    <div class="card bild"><span class="bild-ico" aria-hidden="true">⛓</span><h4>Geschirr = Harness</h4><p>Überträgt die Kraft auf die Tools und begrenzt, was das LLM darf.</p></div>
+    <div class="card bild"><span class="bild-ico" aria-hidden="true">👤</span><h4>Kutscher = Mensch</h4><p>Gibt das Ziel vor, hält die Zügel, gibt frei und kann bremsen.</p></div>
+  </div>
+  <p class="dim">Und der <strong>Wagen mit Ladung</strong>? Das sind die Tools und Daten: MCP-Server und Datenbank.</p>
+</section>
+
+<!-- ================= LEVEL-ÜBERSICHT ================= -->
+<section class="overview" id="levels">
+  <h2>Die sechs Level</h2>
+  <div class="lvl-grid">
+    <a class="lvl-card" href="lvl0.html" data-level="0">
+      <span class="lvl-tag">LVL 0 // UNGEZÄHMT</span>
+      <h3>Das Pferd ohne Geschirr</h3>
+      <p>Was ein LLM kann, was nicht, und was es bei jedem Aufruf wirklich sieht.</p>
+      <span class="lvl-meta">3 Stationen · Clearance-Test</span>
+    </a>
+    <a class="lvl-card" href="lvl1.html" data-level="1">
+      <span class="lvl-tag">LVL 1 // SCHLEIFE</span>
+      <h3>Die Agenten-Schleife</h3>
+      <p>Planen, Tool wünschen, Ergebnis lesen, weiter. Und: Workflow oder Agent?</p>
+      <span class="lvl-meta">4 Stationen · Clearance-Test</span>
+    </a>
+    <a class="lvl-card" href="lvl2.html" data-level="2">
+      <span class="lvl-tag">LVL 2 // GESCHIRR</span>
+      <h3>Der Harness</h3>
+      <p>Du spielst selbst das LLM. Warum Rechte in den Code gehören und nicht in den Prompt.</p>
+      <span class="lvl-meta">5 Stationen · Clearance-Test</span>
+    </a>
+    <a class="lvl-card" href="lvl3.html" data-level="3">
+      <span class="lvl-tag">LVL 3 // ZÜGEL</span>
+      <h3>Mensch-Maschine-Schnittstellen</h3>
+      <p>Auftrag, Freigabe, Rückfrage, Not-Aus. Wie viel Kontrolle gibst du ab?</p>
+      <span class="lvl-meta">5 Stationen · Clearance-Test</span>
+    </a>
+    <a class="lvl-card" href="lvl4.html" data-level="4">
+      <span class="lvl-tag">LVL 4 // GESPANN</span>
+      <h3>Multiagentensysteme</h3>
+      <p>Ein Team aus Agenten: Rechte verteilen, Kosten zählen, stille Post erkennen. Dazu A2A.</p>
+      <span class="lvl-meta">4 Stationen · Clearance-Test</span>
+    </a>
+    <a class="lvl-card" href="lvl5.html" data-level="5">
+      <span class="lvl-tag">LVL 5 // KUTSCHER</span>
+      <h3>Selbst auf den Kutschbock</h3>
+      <p>Eigene Agenten definieren, dann im Praxis-Repo mit Python, n8n und Claude Code umsetzen.</p>
+      <span class="lvl-meta">3 Stationen · Clearance-Test</span>
+    </a>
+  </div>
+</section>
+
+<!-- ================= ABSCHLUSS ================= -->
+<section class="finale" id="online" hidden>
+  <figure class="img-slot finale-img">
+    <img src="img/gespann-startklar.png" alt="Das mechanische Pferd im vollständigen leuchtenden Geschirr, ein Mensch hält die Kabelzügel auf dem Kutschbock" onerror="this.closest('figure').classList.add('missing')">
+    <div class="ph">img/gespann-startklar.png</div>
+  </figure>
+  <h2 class="glitch" data-text="GESPANN STARTKLAR">GESPANN STARTKLAR</h2>
+  <p>Alle sechs Gurte sitzen. Du hast die Clearance <strong>KUTSCHER</strong> erreicht.</p>
+  <p>Jetzt ab auf den echten Kutschbock: Im <a href="https://github.com/FlowTheTensor/SQLite-per-MCP/blob/main/agenten/README.md" target="_blank" rel="noopener">Praxis-Repo SQLite-per-MCP</a>
+    baust und steuerst du deine Agenten selbst.</p>
+</section>
+
+</main>
+
+<footer class="foot">
+  <p>KI-Agenten – Geschirr für den Kern · Ein Lernangebot der Jakob-Preh-Schule · Fortsetzung von
+    <a href="https://flowthetensor.github.io/LS-MCP-USB-fuer-KI/" target="_blank" rel="noopener">MCP – USB für KI</a></p>
+  <p>Quellen: <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Building effective agents</a>,
+    <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">modelcontextprotocol.io</a>,
+    <a href="https://a2a-protocol.org" target="_blank" rel="noopener">a2a-protocol.org</a>,
+    <a href="https://github.com/google/A2UI" target="_blank" rel="noopener">A2UI</a>,
+    <a href="https://github.com/FlowTheTensor/SQLite-per-MCP" target="_blank" rel="noopener">SQLite-per-MCP</a></p>
+  <p>Der Fortschritt wird nur in diesem Browser gespeichert. <button class="linkbtn" id="reset-progress">Fortschritt zurücksetzen</button></p>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/tests.js"></script>
+<script src="js/agentsim.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

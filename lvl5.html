@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="de" data-farbschema-standard="dunkel">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Christoph Rothaug, Jakob-Preh-Schule Bad Neustadt">
+<!-- Lizenz: CC BY 4.0 – Christoph Rothaug, Jakob-Preh-Schule Bad Neustadt (ausgenommen Schullogo, Schriften; siehe README) -->
+<link rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+<title>LVL 5 · Selbst auf den Kutschbock – KI-Agenten</title>
+<meta name="description" content="Interaktive Lernseite zu KI-Agenten, Harness, Mensch-Maschine-Schnittstellen und Multiagentensystemen: Lege dem KI-Kern Level für Level sein Geschirr an.">
+<meta property="og:title" content="KI-Agenten – Geschirr für den Kern">
+<meta property="og:description" content="Das Pferd ist stark. Wer hält die Zügel? Interaktive Lernseite zu KI-Agenten, Harness und Multiagentensystemen.">
+<meta property="og:image" content="img/og-image.png">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="js/farbschema.js"></script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-text">KI-Agenten <span class="dim">–</span> Geschirr für den Kern</span>
+  </a>
+  <nav class="lvl-nav" id="lvl-nav" aria-label="Level"></nav>
+  <span class="farbschema-platz" data-farbschema-platz></span>
+</header>
+
+<a class="pinned-logo" href="https://www.bsnes.de" target="_blank" rel="noopener" title="Zur Homepage der Jakob-Preh-Schule">
+  <img src="img/logoschulecyber-klein.png" alt="Jakob-Preh-Schule">
+</a>
+
+<main id="top">
+
+<section class="level" id="lvl5" data-level="5">
+  <header class="lvl-head">
+    <span class="lvl-tag">LVL 5 // KUTSCHER</span>
+    <h2>Selbst auf den Kutschbock</h2>
+    <p class="lvl-sub">Eigene Agenten definieren, dann im Praxis-Repo mit Python, n8n und Claude Code umsetzen.</p>
+    <figure class="img-slot banner">
+      <img src="img/lvl5-kutscher.png" alt="Ein erhöhter Kutschbock mit Steuerpult, davor ein leuchtender Bauplan eines Geschirrs, im Hintergrund ein Gespann mechanischer Pferde" onerror="this.closest('figure').classList.add('missing')">
+      <div class="ph">img/lvl5-kutscher.png</div>
+    </figure>
+  </header>
+
+  <article class="station" id="lvl5-s1">
+    <div class="crumb">LVL 5 · Station 1 · <span class="tag">Interaktiv</span></div>
+    <h3>Agenten-Designer</h3>
+    <p>Im Praxis-Repo ist ein Agent eine einfache <strong>Textdatei</strong> in <code>agenten/definitionen/</code>: oben ein Kopfbereich mit Rechten und Grenzen (S0),
+      darunter der System-Prompt. Entwirf einen eigenen Agenten oder lade eine Vorlage. Der Designer prüft deine Definition und zeigt, was das LLM daraus zu sehen bekommt.</p>
+    <div class="widget" id="designer">
+      <div class="ds-grid">
+        <div class="controls col">
+          <label>Vorlage <select id="ds-vorlage"></select></label>
+          <label>name <input id="ds-name" spellcheck="false"></label>
+          <label>beschreibung <span class="dim">(die liest ein Koordinator!)</span><textarea id="ds-beschr" rows="2"></textarea></label>
+          <fieldset class="ds-set"><legend>Tools des MCP-Servers</legend><div id="ds-tools-wahl"></div></fieldset>
+          <label class="ds-inline"><input type="checkbox" id="ds-fragen"> mensch_fragen <span class="dim">(Tool frage_mensch, S3)</span></label>
+          <fieldset class="ds-set"><legend>delegiert_an</legend><div class="ds-del" id="ds-del"></div></fieldset>
+          <label>max_schritte <input type="number" id="ds-max" min="1" max="99"></label>
+          <label>System-Prompt<textarea id="ds-prompt" rows="6"></textarea></label>
+        </div>
+        <div class="ds-rechts">
+          <div class="checklist" id="ds-check"></div>
+          <div class="tabs">
+            <button class="btn small sel" data-tab="md">Unser Harness</button>
+            <button class="btn small" data-tab="cc">Claude Code</button>
+            <button class="btn small" data-tab="sieht">Das sieht das LLM</button>
+          </div>
+          <div class="ds-out" data-tab="md"><p class="readout" id="ds-datei"></p><pre class="md" id="ds-md"></pre></div>
+          <div class="ds-out" data-tab="cc" hidden><p class="readout" id="ds-datei-cc"></p><pre class="md" id="ds-cc"></pre>
+            <p class="readout">In Claude Code heißen Agenten-Definitionen <em>Subagents</em>. MCP-Tools werden als <code>mcp__&lt;server&gt;__&lt;tool&gt;</code> angegeben.
+              Freigaben stellt man dort nicht in der Datei ein, sondern über Berechtigungsregeln, z. B. <code>"ask": ["mcp__sqlite-schule__add_grade"]</code>.</p></div>
+          <div class="ds-out" data-tab="sieht" hidden><pre id="ds-sieht"></pre></div>
+        </div>
+      </div>
+    </div>
+    <details class="tasks" open>
+      <summary>Aufträge</summary>
+      <ol>
+        <li><strong>Neuer Spezialist:</strong> Vervollständige den <code>statistiker</code>, bis keine Warnung mehr erscheint. Er soll nur lesen dürfen.</li>
+        <li><strong>Prompt vs. Code:</strong> Schreibe in den Prompt „Trage niemals Noten ein.“ und setze <code>add_grade</code> auf <em>tools</em>. Was meldet der Designer?</li>
+        <li>Lade den <code>notenverwalter</code> und vergleiche die Ansichten „Unser Harness“ und „Das sieht das LLM“. Welche Teile ergänzt der Harness?</li>
+        <li>Lade den <code>koordinator</code> und füge den <code>statistiker</code> bei <code>delegiert_an</code> hinzu. Was müsstest du im Praxis-Repo noch tun, damit das funktioniert?</li>
+      </ol>
+    </details>
+  </article>
+
+  <article class="station" id="lvl5-s2">
+    <div class="crumb">LVL 5 · Station 2 · <span class="tag">Praxis</span></div>
+    <h3>Das Praxis-Repo: SQLite-per-MCP, Teil 2</h3>
+    <p>Alles, was du in dieser Lernsituation im Browser gesehen hast, läuft im Praxis-Repo echt: ein Harness in Python, in dem du jede Zeile lesen kannst.
+      Voraussetzung ist Teil 1 des Projekts (venv aktiv, <code>schule.db</code> erstellt). Weitere Pakete braucht der Harness nicht.</p>
+<pre class="sh"># Welche Agenten gibt es?
+python agenten/agent.py --liste
+
+# Du spielst selbst das LLM: kostenlos, ohne Internet
+python agenten/agent.py --agent datenbank-analyst --modell mensch
+
+# Mit einem lokalen Modell über Ollama
+ollama pull qwen2.5:7b
+python agenten/agent.py --agent datenbank-analyst --modell ollama "Welche Klasse hat den besten Mathe-Schnitt?"
+
+# Human-in-the-Loop: Noten eintragen nur mit Freigabe
+python agenten/agent.py --agent notenverwalter --modell anthropic
+
+# Multiagentensystem
+python agenten/agent.py --agent koordinator --modell anthropic "Kurzer Text für den Elternabend der 7a zum Notenstand in Mathe"</pre>
+    <table class="tbl">
+      <thead><tr><th>Phase</th><th>Was du tust</th><th>Entspricht hier</th></tr></thead>
+      <tbody>
+        <tr><th>A</th><td>Unplugged-Rollenspiel: Mensch, Harness, LLM, MCP-Server mit Zetteln</td><td>LVL 0, Station 2</td></tr>
+        <tr><th>B</th><td>Du bist das LLM im Minimal-Agenten</td><td>LVL 1, Station 2</td></tr>
+        <tr><th>C</th><td>Harness untersuchen: blockierte Tools, Protokolldatei, System-Prompt</td><td>LVL 2, Stationen 2–3</td></tr>
+        <tr><th>D</th><td>Rückfrage, Freigabe, <code>--alles-erlauben</code></td><td>LVL 3, Station 2</td></tr>
+        <tr><th>E</th><td>Multiagentensystem mit echtem LLM, Token-Tabelle auswerten</td><td>LVL 4, Station 2</td></tr>
+        <tr><th>F</th><td>Eigene Agenten definieren, ins Team aufnehmen, Rechte testen</td><td>LVL 5, Station 1</td></tr>
+        <tr><th>G</th><td>Programmieren: bessere Freigabe mit Namen, Token-Budget, neues Tool, parallele Agenten</td><td>neu</td></tr>
+      </tbody>
+    </table>
+    <p>Zum Repo: <a href="https://github.com/FlowTheTensor/SQLite-per-MCP/blob/main/agenten/README.md" target="_blank" rel="noopener">agenten/README.md</a> ·
+      Aufgaben: <a href="https://github.com/FlowTheTensor/SQLite-per-MCP/blob/main/docs/agenten/05_aufgaben.md" target="_blank" rel="noopener">docs/agenten/05_aufgaben.md</a></p>
+    <details class="tasks" open>
+      <summary>Projektaufträge</summary>
+      <ol>
+        <li><strong>Bessere Freigabe:</strong> Ändere <code>Mensch.freigabe()</code> so, dass statt <code>schueler_id: 37</code> Name und Fach angezeigt werden. (Tipp: Der Harness kann vorher selbst eine SELECT-Abfrage über <code>self.mcp</code> ausführen.)</li>
+        <li><strong>Budget:</strong> Ergänze ein Token-Budget. Überschreitet ein Lauf z. B. 20 000 Tokens, bricht der Harness ab (S4).</li>
+        <li><strong>Neues Tool:</strong> Ergänze in <code>src/index.py</code> ein Tool <code>average_grade(schueler_id, fach)</code>. Muss es freigegeben werden? Begründe.</li>
+        <li><strong>Parallele Agenten:</strong> Lass mehrere <code>delegiere_an_…</code>-Aufrufe in einem Schritt mit <code>asyncio.gather</code> gleichzeitig laufen.</li>
+      </ol>
+    </details>
+    <p class="note"><strong>Datenschutz:</strong> Die Datenbank enthält nur erfundene Daten. Bei <code>--modell anthropic</code> gehen Abfrageergebnisse an den Anbieter.
+      Mit echten Schülerdaten wäre das nicht zulässig. Ein lokales Modell über Ollama hält die Daten auf dem Rechner.</p>
+  </article>
+
+  <article class="station" id="lvl5-s3">
+    <div class="crumb">LVL 5 · Station 3 · <span class="tag">Erweiterung</span></div>
+    <h3>Andere Harnesses: n8n und Claude Code</h3>
+    <p><strong>n8n</strong> ist ein Werkzeug, mit dem man Abläufe grafisch zusammenklickt. Es kann feste Workflows <em>und</em> KI-Agenten bauen und spricht MCP.
+      Im Praxis-Repo startet <code>n8n/docker-compose.yml</code> zwei Container: n8n und denselben MCP-Server, diesmal über <strong>HTTP</strong> statt stdio.</p>
+    <div class="grid3">
+      <div class="card"><h4>A · fester Workflow</h4><p>Formular (Klasse, Fach) → MCP-Aufruf mit fester SQL → Ergebnisseite. <strong>Kein LLM.</strong> Immer genau ein MCP-Aufruf.</p></div>
+      <div class="card"><h4>B · Agent</h4><p>Knoten <em>AI Agent</em> mit LLM, Verlauf und <em>MCP Client Tool</em>. Die Schleife steckt im Knoten, sichtbar nur in den Logs.</p></div>
+      <div class="card"><h4>C · Workflow mit Freigabe</h4><p>Schüler suchen → genau ein Treffer? → Freigabe-Seite mit Namen → <code>add_grade</code>. Auch ohne LLM braucht Schreiben eine Freigabe.</p></div>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>Teil aus diesem Kurs</th><th>Wo in n8n?</th><th>Wo im eigenen Harness?</th></tr></thead>
+      <tbody>
+        <tr><th>Harness / Schleife</th><td>Knoten <em>AI Agent</em></td><td><code>harness/harness.py</code></td></tr>
+        <tr><th>System-Prompt</th><td><em>AI Agent → Options → System Message</em></td><td><code>definitionen/*.md</code></td></tr>
+        <tr><th>Schrittlimit (S4)</th><td><em>Max Iterations</em></td><td><code>max_schritte</code></td></tr>
+        <tr><th>Erlaubte Tools (S0)</th><td><em>Tools to Include → Selected</em></td><td><code>tools:</code></td></tr>
+        <tr><th>Verlauf</th><td>Knoten <em>Simple Memory</em></td><td>Liste <code>nachrichten</code></td></tr>
+        <tr><th>Protokoll (S5)</th><td>Reiter <em>Executions</em>, <em>Logs</em></td><td><code>protokolle/*.jsonl</code></td></tr>
+      </tbody>
+    </table>
+    <p><strong>Claude Code</strong> ist ein Harness für die Programmierung und zugleich ein MCP-Host. Eigene Subagenten legt man genau wie im Praxis-Repo als Markdown-Dateien an
+      (<code>.claude/agents/&lt;name&gt;.md</code>, siehe Station 1). Der Hauptagent delegiert dann Teilaufgaben, und jeder Subagent arbeitet in einem eigenen Kontext mit eigenen Tools.
+      Freigaben stellt man über <em>Berechtigungsmodi</em>, Regeln (<code>allow</code>, <code>ask</code>, <code>deny</code>) und <em>Hooks</em> ein.</p>
+    <details class="tasks">
+      <summary>Projektaufträge</summary>
+      <ol>
+        <li>Ermittle den Mathe-Durchschnitt der 7a einmal mit Workflow A und einmal mit Workflow B. Vergleiche Ergebnis, Dauer und Anzahl der MCP-Aufrufe.</li>
+        <li>Schalte im Knoten <em>MCP Client Tool</em> zusätzlich <code>add_grade</code> frei und bitte den Agenten, eine Note einzutragen. Fragt n8n vorher? Vergleiche mit dem <code>notenverwalter</code>. (Danach wieder entfernen!)</li>
+        <li>Lege in Claude Code den <code>datenbank-analyst</code> als Subagent an und binde den MCP-Server ein. Stelle eine Frage und beobachte, wann delegiert wird.</li>
+        <li>Wann würdest du in der Schule n8n einsetzen, wann den eigenen Harness, wann Claude Desktop oder Claude Code?</li>
+      </ol>
+    </details>
+    <p>Anleitung: <a href="https://github.com/FlowTheTensor/SQLite-per-MCP/blob/main/docs/agenten/06_n8n.md" target="_blank" rel="noopener">docs/agenten/06_n8n.md</a></p>
+  </article>
+
+  <div class="test" data-level="5"></div>
+</section>
+
+<nav class="pager" aria-label="Level wechseln">
+  <a href="lvl4.html">◂ LVL 4</a>
+  <a href="index.html">Übersicht</a>
+  <a href="index.html#online">Abschluss ▸</a>
+</nav>
+
+</main>
+
+<footer class="foot">
+  <p>KI-Agenten – Geschirr für den Kern · Ein Lernangebot der Jakob-Preh-Schule · Fortsetzung von
+    <a href="https://flowthetensor.github.io/LS-MCP-USB-fuer-KI/" target="_blank" rel="noopener">MCP – USB für KI</a></p>
+  <p>Quellen: <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Building effective agents</a>,
+    <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">modelcontextprotocol.io</a>,
+    <a href="https://a2a-protocol.org" target="_blank" rel="noopener">a2a-protocol.org</a>,
+    <a href="https://github.com/google/A2UI" target="_blank" rel="noopener">A2UI</a>,
+    <a href="https://github.com/FlowTheTensor/SQLite-per-MCP" target="_blank" rel="noopener">SQLite-per-MCP</a></p>
+  <p>Der Fortschritt wird nur in diesem Browser gespeichert. <button class="linkbtn" id="reset-progress">Fortschritt zurücksetzen</button></p>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/tests.js"></script>
+<script src="js/agentsim.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
