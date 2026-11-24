@@ -8,8 +8,8 @@ Die Farben passen zur MCP-LS (Cyan `#22e3f5`, Rot `#ff3448`), damit beide Lernsi
 
 | Datei | Format | Wo auf der Seite? | erledigt |
 | --- | --- | --- | --- |
-| `hero.png` | 1600 × 700 | Startseite oben | ☐ |
-| `lvl0-ungezaehmt.png` | 1600 × 500 | Banner LVL 0 „Das Pferd ohne Geschirr“ | ☐ |
+| `hero.png` | 1600 × 700 | Startseite oben | ☑ |
+| `lvl0-ungezaehmt.png` | 1600 × 500 | Banner LVL 0 „Das Pferd ohne Geschirr“ | ☑ |
 | `lvl1-schleife.png` | 1600 × 500 | Banner LVL 1 „Die Agenten-Schleife“ | ☐ |
 | `lvl2-geschirr.png` | 1600 × 500 | Banner LVL 2 „Der Harness“ | ☐ |
 | `lvl3-zuegel.png` | 1600 × 500 | Banner LVL 3 „Mensch-Maschine-Schnittstellen“ | ☐ |
