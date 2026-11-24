@@ -73,6 +73,16 @@
       q: "Wozu gehört <code>schule.db</code> im Kutschen-Bild?",
       opts: ["Zum Wagen mit Ladung: Tools und Daten", "Zum Pferd", "Zum Geschirr", "Zum Kutscher"],
       explain: "Tools und Daten (MCP-Server, Datenbank) sind die Ladung, die bewegt wird."
+    },
+    {
+      q: "Der Agent ruft <code>add_grade</code> auf. Was ist der <strong>eigentliche Zweck</strong> dieses Aufrufs?",
+      opts: ["Eine Note in der Datenbank eintragen; im Kontext landet nur die Quittung", "Den Kontext des LLM mit neuen Informationen anreichern", "Dem LLM beizubringen, wie man Noten einträgt", "Die Toolliste für den nächsten Aufruf zu verkürzen"],
+      explain: "<code>add_grade</code> ist ein handelndes Tool (Hände): Es verändert die Welt. Lesende Tools (Augen) wie ein SELECT dienen dagegen dazu, den Kontext anzureichern."
+    },
+    {
+      q: "Warum verlangt ein Harness vor allem bei <strong>handelnden</strong> Tools eine Freigabe durch einen Menschen?",
+      opts: ["Weil sie echten Schaden in der Welt anrichten können, lesende Tools füllen nur den Kontext", "Weil handelnde Tools mehr Tokens kosten", "Weil das LLM handelnde Tools nicht selbst aufrufen kann", "Weil lesende Tools nie falsche Daten liefern"],
+      explain: "Der Kontext ist nach dem Lauf weg, eine eingetragene Note oder eine verschickte Mail bleibt. Deshalb setzen Freigaben und Rechte bei den Händen des Agenten an."
     }
   ];
 

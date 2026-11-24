@@ -102,6 +102,28 @@
     <p class="note"><strong>Darum kostet jeder Schritt mehr:</strong> Weil das LLM sich nichts merkt, muss der Harness den
       kompletten Verlauf jedes Mal neu mitschicken. Bezahlt wird pro Token, also pro Textstück (Faustregel: 4 Zeichen ≈ 1 Token).
       System-Prompt und Toolliste werden bei jedem Aufruf erneut bezahlt.</p>
+
+    <h4 style="margin-top: 1.6rem">Ist ein Agent also nur Kontextverwaltung?</h4>
+    <p>Aus Sicht des LLM: ja. Was nicht im Kontext steht, gibt es für das Modell nicht. Ein Tool-Ergebnis, die Antwort eines anderen Agenten
+      oder ein gefundenes Dokument kommen beim LLM immer nur als <strong>zusätzlicher Text im nächsten Aufruf</strong> an.
+      Für das Gesamtsystem ist das aber zu kurz gedacht. Entscheidend ist, <em>wofür</em> ein Tool aufgerufen wird:</p>
+    <table class="tbl">
+      <thead><tr><th>Tool-Art</th><th>Beispiele</th><th>Eigentlicher Zweck</th></tr></thead>
+      <tbody>
+        <tr><th>👁 Lesend</th><td><code>query_database</code> mit SELECT, Websuche, Datei lesen</td><td><strong>Kontext anreichern.</strong> Das Ergebnis ist genau das, was gebraucht wird.</td></tr>
+        <tr><th>✋ Handelnd</th><td><code>add_grade</code>, E-Mail senden, Datei speichern, Bestellung auslösen</td><td><strong>Etwas in der Welt verändern.</strong> Im Kontext landet nur die Quittung, z.&nbsp;B. „1 Note eingetragen“.</td></tr>
+      </tbody>
+    </table>
+    <div class="grid2">
+      <div class="card"><h4>Innensicht · das LLM</h4><p>Alles ist Kontext. Tools und weitere LLM-Aufrufe sind Mittel, um den Kontext für den <strong>nächsten Denkschritt</strong> zu verbessern.</p></div>
+      <div class="card"><h4>Außensicht · Mensch und System</h4><p>Der Kontext ist nur Mittel zum Zweck. Der Zweck ist eine <strong>Antwort</strong> oder eine <strong>Handlung</strong>.
+        Nach dem Lauf ist der Kontext weg, die eingetragene Note bleibt.</p></div>
+    </div>
+    <p class="note"><strong>Merksatz:</strong> Der Kontext ist das Arbeitsgedächtnis des Agenten, die Tools sind seine <strong>Augen</strong> und seine <strong>Hände</strong>.
+      Mit den Augen füllt er das Gedächtnis. Mit den Händen verändert er die Welt, und das Gedächtnis erfährt nur davon.</p>
+    <p>Diese Unterscheidung ist wichtig für die Sicherheit. Ein lesendes Tool kann im schlimmsten Fall den Kontext mit falschen Informationen füllen.
+      Ein handelndes Tool kann echten Schaden anrichten. Deshalb verlangt ein Harness gerade bei handelnden Tools eine Freigabe durch einen Menschen
+      (mehr dazu in <a href="lvl2.html#lvl2-s4">LVL 2</a> und <a href="lvl3.html#lvl3-s2">LVL 3</a>).</p>
   </article>
 
   <article class="station" id="lvl0-s3">
