@@ -222,7 +222,8 @@
         ...   # System-Prompt, Tools und neue Nachrichten anzeigen
         eingabe = input("LLM> ")
         # "tool NAME {json}"  -> Tool-Wunsch,  sonst -> fertige Antwort</pre>
-    <p>Dass man das Gehirn austauschen kann, ohne den Rest zu ändern, zeigt: <strong>Agent ≠ LLM.</strong> Ein großer Teil des Verhaltens kommt aus dem Harness.</p>
+    <p>Dass man das Gehirn austauschen kann, ohne den Rest zu ändern, zeigt: <strong>Agent ≠ LLM.</strong> Im Agenten steckt nur ein <strong>Zugang</strong> zum Modell:
+      <code>llm.py</code> enthält kein Modell, sondern schickt HTTP-Anfragen an eine API. Ein großer Teil des Verhaltens kommt aus dem Harness.</p>
     <table class="tbl">
       <thead><tr><th></th><th>Claude Desktop</th><th>Claude Code</th><th>n8n</th><th>eigener Harness</th></tr></thead>
       <tbody>

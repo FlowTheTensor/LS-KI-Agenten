@@ -772,3 +772,17 @@ html.hellmodus .btn.notaus { color: #fff; }
 
 /* Spalten-Formulare nicht umbrechen, sonst richtet sich die Breite nach dem breitesten Feld */
 .controls.col { flex-wrap: nowrap; }
+
+/* Rahmen „Agent = LLM + Harness“ im Schichtenmodell */
+.a-agentframe { fill: rgba(255,52,72,.04); stroke: var(--red); stroke-width: 2; stroke-dasharray: 7 4; stroke-linejoin: round; }
+.arch .a-agentlbl { fill: var(--red); font: 700 12px var(--mono); letter-spacing: .06em; }
+html.hellmodus .a-llm { fill: #fbeef0; }
+.arch .a-api { fill: var(--cyan); font-weight: 700; }
+
+/* Farben im Schaubild: Rot = Agent, Violett = LLM */
+.arch .a-lbl { fill: var(--violet); }
+.a-llm { fill: rgba(197,146,255,.1); stroke: var(--violet); }
+html.hellmodus .a-llm { fill: #f3ecfb; }
+.a-agentdot { fill: rgba(255,52,72,.1); stroke: var(--red); }
+.a-gap { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.a-gap-end { stroke-dasharray: none; }

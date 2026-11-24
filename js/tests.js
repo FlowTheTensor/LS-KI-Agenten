@@ -41,8 +41,14 @@
     },
     {
       q: "Welche Formel beschreibt einen Agenten?",
-      opts: ["LLM + Tools + Schleife + Ziel (mit Grenzen durch den Harness)", "LLM + großer Speicher", "MCP + Datenbank", "Chatbot + schnellere Hardware"],
-      explain: "Fehlt die Schleife, ist es ein Chatbot. Fehlen die Tools, kann er nur reden. Fehlt das Ziel, weiß er nicht, wann er fertig ist."
+      opts: ["API zu LLM + Tools + Harness + Schleife (mit Ziel als Abbruchbedingung)", "LLM + großer Speicher", "MCP-Server + Datenbank", "Chatbot + schnellere Hardware"],
+      explain: "Ohne API zum LLM entscheidet niemand, ohne Tools kann der Agent nur reden, ohne Harness führt niemand aus und setzt keine Grenzen, ohne Schleife ist es ein Chatbot. Das Ziel sagt der Schleife, wann sie aufhören darf. Das Modell selbst steckt meist nicht im Agenten."
+    },
+    {
+      q: "Steckt das Sprachmodell normalerweise <strong>im</strong> Agenten?",
+      opts: ["Nein. Der Agent hat nur einen Zugang (API). Das Modell läuft in der Cloud oder lokal in einem eigenen Programm wie Ollama.",
+        "Ja, jeder Agent bringt sein eigenes vollständiges Modell mit", "Ja, das Modell ist Teil des MCP-Servers", "Nein, ein Agent kommt ganz ohne Sprachmodell aus"],
+      explain: "Im Praxis-Repo enthält <code>harness/llm.py</code> kein Modell, sondern nur HTTP-Anfragen. Deshalb lässt sich mit <code>--modell</code> das Gehirn tauschen, ohne den Harness zu ändern."
     },
     {
       q: "Was ist der Unterschied zwischen <strong>MCP</strong> und einem <strong>Harness</strong>?",
