@@ -8,7 +8,9 @@
 (function (root) {
   "use strict";
 
-  /* ---------------- Beispiel-Datenbank (wie in der MCP-LS) ---------------- */
+  /* ---------------- Beispiel-Datenbank ----------------
+     Gleiche Daten wie create_database.py im Praxis-Repo (SQLite-per-MCP).
+     Bei Änderungen beide Stellen gleich halten. */
   const DB_START = {
     schueler: {
       cols: [["id", "INTEGER"], ["vorname", "TEXT"], ["nachname", "TEXT"], ["klasse", "TEXT"], ["geburtsdatum", "DATE"], ["email", "TEXT"]],
@@ -46,6 +48,10 @@
         [3, "Sandra", "Wolf", "Deutsch", "Englisch", "C301"],
         [4, "Michael", "Schneider", "Englisch", "Sport", "A207"],
         [5, "Julia", "Zimmermann", "Deutsch", "Informatik", "B118"],
+        [6, "Robert", "Wagner", "Mathematik", "Deutsch", "C105"],
+        [7, "Sabine", "Becker", "Englisch", "Deutsch", "C212"],
+        [8, "Andreas", "Hoffmann", "Sport", "Informatik", "A015"],
+        [9, "Claudia", "Fischer", "Mathematik", "Englisch", "B310"],
         [10, "Martin", "Schulz", "Informatik", "Deutsch", "B220"]
       ]
     },
