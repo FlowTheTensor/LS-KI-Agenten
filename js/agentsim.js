@@ -231,15 +231,16 @@ Du bist ein kritischer, unabhängiger Prüfer ("Vier-Augen-Prinzip").
 Prüfe Aussagen mit EIGENEN SQL-Abfragen. Antworte mit BESTÄTIGT oder KORREKTUR NÖTIG.`,
     "berichtsautor": `---
 name: berichtsautor
-beschreibung: Schreibt aus gelieferten Fakten verständliche Texte für Eltern oder Schüler. Hat KEINEN Datenbankzugriff.
+beschreibung: Schreibt aus gelieferten Fakten verständliche Rückmeldungen an die Lernenden einer Klasse. Hat KEINEN Datenbankzugriff.
 tools:
 tools_mit_freigabe:
 mensch_fragen: nein
 delegiert_an:
 max_schritte: 3
 ---
-Du bist Autor für Schulkommunikation. Verwende ausschließlich die gelieferten Fakten.
-Datenschutz: Nenne in Texten für Eltern KEINE Namen einzelner Schülerinnen oder Schüler.`,
+Du bist Autor für Schulkommunikation. Du schreibst sachliche, motivierende Texte an die Lernenden einer Klasse (Anrede „Sie“).
+Verwende ausschließlich die gelieferten Fakten.
+Datenschutz: Der Text geht an die ganze Klasse. Nenne KEINE Namen und KEINE Einzelnoten, nur Werte für die Klasse als Ganzes.`,
     "koordinator": `---
 name: koordinator
 beschreibung: Zerlegt größere Aufträge in Teilaufgaben und verteilt sie an Spezialisten.
@@ -633,7 +634,7 @@ Lass wichtige Zahlen immer vom pruefer kontrollieren, bevor sie in einen Text ge
     if (!db("datenbank-analyst")) p.push(["bad", "datenbank-analyst: Ohne query_database kann er keine Zahlen holen."]);
     else if (!hat("datenbank-analyst", "describe_table")) p.push(["warn", "datenbank-analyst: Ohne describe_table muss er die Spaltennamen raten. Das kostet Fehlversuche."]);
     if (!db("pruefer")) p.push(["bad", "pruefer: Ohne query_database kann er nichts unabhängig nachprüfen. Das Vier-Augen-Prinzip fällt weg."]);
-    if (db("berichtsautor") || hat("berichtsautor", "list_tables") || hat("berichtsautor", "describe_table")) p.push(["bad", "berichtsautor: Er braucht keine Datenbank. Mit Zugriff könnte er Namen nachschlagen und in den Elternbrief schreiben (Datenschutz)."]);
+    if (db("berichtsautor") || hat("berichtsautor", "list_tables") || hat("berichtsautor", "describe_table")) p.push(["bad", "berichtsautor: Er braucht keine Datenbank. Mit Zugriff könnte er Namen oder Einzelnoten nachschlagen und in die Rückmeldung an die Klasse schreiben (Datenschutz)."]);
     ["datenbank-analyst", "pruefer", "berichtsautor"].forEach(a => { if (hat(a, "delegiert_an")) p.push(["warn", `${a}: Spezialisten sollten nicht selbst weiterdelegieren. Sonst entstehen lange Ketten, die niemand mehr überblickt.`]); });
     ["datenbank-analyst", "pruefer", "berichtsautor"].forEach(a => { if (hat(a, "frage_mensch")) p.push(["warn", `${a}: Rückfragen an den Menschen laufen besser über den Koordinator. Sonst wird der Mensch von allen Seiten gefragt.`]); });
     TEAM_AGENTEN.forEach(a => { if (!db(a) && (hat(a, "list_tables") || hat(a, "describe_table")) && a !== "berichtsautor") p.push(["warn", `${a}: Tabellen ansehen ohne query_database bringt wenig.`]); });
@@ -663,7 +664,7 @@ Lass wichtige Zahlen immer vom pruefer kontrollieren, bevor sie in einen Text ge
     }
     const start = (agent, auftrag, tiefe) => { kontexte[agent] = { verlauf: tok(auftrag) }; add("AGENT", `▶ Agent '${agent}' startet · Tools: ${toolsVon(agent).join(", ") || "(keine)"}`, tiefe); };
 
-    const auftrag = "Schreibe einen kurzen Text für den Elternabend der 7a über den Notenstand in Mathematik.";
+    const auftrag = "Schreibe eine kurze Zwischenstand-Rückmeldung für die Klasse 7a in Mathematik, die ich vor der nächsten Schulaufgabe an alle verschicken kann.";
     const sql7a = "SELECT AVG(note) FROM noten WHERE kurs_id = 6";
     const schnitt7a = JSON.parse(mcpAufruf(db, "query_database", { query: sql7a }))[0]["AVG(note)"];
     const alleMathe = runde((JSON.parse(mcpAufruf(db, "query_database", { query: "SELECT SUM(note) FROM noten WHERE kurs_id = 6" }))[0]["SUM(note)"] +
@@ -753,20 +754,20 @@ Lass wichtige Zahlen immer vom pruefer kontrollieren, bevor sie in einen Text ge
         llm(p, "Ich kann das nicht prüfen, ich habe keinen Datenbankzugriff. BESTÄTIGT.");
         add("LLM", "Ich kann nicht selbst abfragen … BESTÄTIGT. (Ein Prüfer ohne Werkzeug nickt nur ab.)", 1);
         add("AGENT", "■ fertig", 1);
-        if (Math.abs(zahl - schnitt7a) > 0.001) fazit.push(["bad", `Falsche Zahl im Elternbrief: ${f(zahl)} statt ${f(schnitt7a)}. Der Prüfer konnte nichts nachprüfen.`]);
+        if (Math.abs(zahl - schnitt7a) > 0.001) fazit.push(["bad", `Falsche Zahl in der Rückmeldung an die Klasse: ${f(zahl)} statt ${f(schnitt7a)}. Der Prüfer konnte nichts nachprüfen.`]);
       }
       // Autor
       const b = "berichtsautor";
-      const autorAuftrag = `Schreibe für den Elternabend der 7a einen kurzen Text: Der Notendurchschnitt in Mathematik liegt bei ${f(zahl)}.`;
+      const autorAuftrag = `Schreibe eine kurze Zwischenstand-Rückmeldung an die Klasse 7a: Der Notendurchschnitt in Mathematik liegt bei ${f(zahl)}. Die nächste Schulaufgabe steht bevor.`;
       llm("koordinator", `tool delegiere_an_berichtsautor {"auftrag": "${autorAuftrag}"}`);
       add("LLM", "delegiere_an_berichtsautor: „" + autorAuftrag + "“", 0);
       start(b, autorAuftrag, 1);
       if (hat(b, "query_database")) {
-        llm(b, "tool query_database SELECT vorname, nachname FROM schueler WHERE klasse = '7a'", "[…]");
-        add("MCP", "query_database → Namen der 7a (der Autor schaut „zur Sicherheit“ nach)", 1);
-        fazit.push(["bad", "Datenschutz-Risiko: Der Berichtsautor hatte Datenbankzugriff und hat Schülernamen in seinen Kontext geholt."]);
+        llm(b, "tool query_database SELECT vorname, nachname, note FROM … WHERE klasse = '7a'", "[…]");
+        add("MCP", "query_database → Namen und Einzelnoten der 7a (der Autor schaut „zur Sicherheit“ nach)", 1);
+        fazit.push(["bad", "Datenschutz-Risiko: Der Berichtsautor hatte Datenbankzugriff und hat Schülernamen und Einzelnoten in seinen Kontext geholt."]);
       }
-      const brief = `Liebe Eltern der 7a, der Notendurchschnitt in Mathematik liegt derzeit bei ${f(zahl)}. Wir üben weiter gemeinsam …`;
+      const brief = `Zwischenstand Mathematik, Klasse 7a: Der Notendurchschnitt der Klasse liegt derzeit bei ${f(zahl)}. Nutzen Sie die Zeit bis zur nächsten Schulaufgabe zum gezielten Üben …`;
       llm(b, brief);
       add("LLM", brief, 1);
       add("AGENT", "■ fertig", 1);
@@ -781,7 +782,7 @@ Lass wichtige Zahlen immer vom pruefer kontrollieren, bevor sie in einen Text ge
     function einzelVerbrauch() { // derselbe Analyst allein, mit vollständigem Auftrag
       const d = DEFS["datenbank-analyst"];
       let verlauf = tok(auftrag), ein = 0, aus = 0;
-      ["tool describe_table noten", "tool query_database SELECT …", "Der Mathe-Schnitt der 7a beträgt 2,76. Text: Liebe Eltern …"].forEach(o => {
+      ["tool describe_table noten", "tool query_database SELECT …", "Der Mathe-Schnitt der 7a beträgt 2,76. Text: Zwischenstand für die Klasse …"].forEach(o => {
         ein += tok(systemPrompt(d)) + 3 * 70 + verlauf; aus += tok(o); verlauf += tok(o) + 15;
       });
       return { aufrufe: 3, ein, aus };

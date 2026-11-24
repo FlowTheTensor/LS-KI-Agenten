@@ -348,7 +348,7 @@ Du bist der Koordinator eines kleinen Agenten-Teams ...`;
     },
     {
       q: "Warum hat der <code>berichtsautor</code> <strong>keinen</strong> Datenbankzugriff?",
-      opts: ["Er soll nur gelieferte Fakten verwenden und kann so keine Schülernamen nachschlagen (Datenschutz)", "Weil Texte keine Daten brauchen", "Weil das LLM sonst zu langsam wird", "Weil MCP das verbietet"],
+      opts: ["Er soll nur gelieferte Fakten verwenden und kann so keine Schülernamen oder Einzelnoten nachschlagen (Datenschutz)", "Weil Texte keine Daten brauchen", "Weil das LLM sonst zu langsam wird", "Weil MCP das verbietet"],
       explain: "Prinzip der minimalen Rechte: Was ein Agent nicht kann, kann er auch nicht falsch machen."
     },
     {

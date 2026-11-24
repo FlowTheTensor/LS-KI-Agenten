@@ -93,7 +93,8 @@
     <div class="crumb">LVL 5 · Station 2 · <span class="tag">Praxis</span></div>
     <h3>Das Praxis-Repo: SQLite-per-MCP, Teil 2</h3>
     <p>Alles, was du in dieser Lernsituation im Browser gesehen hast, läuft im Praxis-Repo echt: ein Harness in Python, in dem du jede Zeile lesen kannst.
-      Voraussetzung ist Teil 1 des Projekts (venv aktiv, <code>schule.db</code> erstellt). Weitere Pakete braucht der Harness nicht.</p>
+      Voraussetzung ist Teil 1 des Projekts (venv aktiv, <code>schule.db</code> erstellt). Weitere Pakete braucht der Harness nicht.
+      Teil 2 liegt im Branch <code>agenten-erweiterung</code>. Wechsle nach dem Klonen mit <code>git switch agenten-erweiterung</code> dorthin.</p>
 <pre class="sh"># Welche Agenten gibt es?
 python agenten/agent.py --liste
 
@@ -108,7 +109,7 @@ python agenten/agent.py --agent datenbank-analyst --modell ollama "Welche Klasse
 python agenten/agent.py --agent notenverwalter --modell anthropic
 
 # Multiagentensystem
-python agenten/agent.py --agent koordinator --modell anthropic "Kurzer Text für den Elternabend der 7a zum Notenstand in Mathe"</pre>
+python agenten/agent.py --agent koordinator --modell anthropic "Kurze Zwischenstand-Rückmeldung für die Klasse 10a in Informatik vor der nächsten Schulaufgabe"</pre>
     <table class="tbl">
       <thead><tr><th>Phase</th><th>Was du tust</th><th>Entspricht hier</th></tr></thead>
       <tbody>
@@ -121,8 +122,8 @@ python agenten/agent.py --agent koordinator --modell anthropic "Kurzer Text für
         <tr><th>G</th><td>Programmieren: bessere Freigabe mit Namen, Token-Budget, neues Tool, parallele Agenten</td><td>neu</td></tr>
       </tbody>
     </table>
-    <p>Zum Repo: <a href="https://github.com/FlowTheTensor/SQLite-per-MCP/blob/main/agenten/README.md" target="_blank" rel="noopener">agenten/README.md</a> ·
-      Aufgaben: <a href="https://github.com/FlowTheTensor/SQLite-per-MCP/blob/main/docs/agenten/05_aufgaben.md" target="_blank" rel="noopener">docs/agenten/05_aufgaben.md</a></p>
+    <p>Zum Repo: <a href="https://github.com/FlowTheTensor/SQLite-per-MCP/blob/agenten-erweiterung/agenten/README.md" target="_blank" rel="noopener">agenten/README.md</a> ·
+      Aufgaben: <a href="https://github.com/FlowTheTensor/SQLite-per-MCP/blob/agenten-erweiterung/docs/agenten/05_aufgaben.md" target="_blank" rel="noopener">docs/agenten/05_aufgaben.md</a></p>
     <details class="tasks" open>
       <summary>Projektaufträge</summary>
       <ol>
@@ -169,7 +170,7 @@ python agenten/agent.py --agent koordinator --modell anthropic "Kurzer Text für
         <li>Wann würdest du in der Schule n8n einsetzen, wann den eigenen Harness, wann Claude Desktop oder Claude Code?</li>
       </ol>
     </details>
-    <p>Anleitung: <a href="https://github.com/FlowTheTensor/SQLite-per-MCP/blob/main/docs/agenten/06_n8n.md" target="_blank" rel="noopener">docs/agenten/06_n8n.md</a></p>
+    <p>Anleitung: <a href="https://github.com/FlowTheTensor/SQLite-per-MCP/blob/agenten-erweiterung/docs/agenten/06_n8n.md" target="_blank" rel="noopener">docs/agenten/06_n8n.md</a></p>
   </article>
 
   <div class="test" data-level="5"></div>
@@ -190,7 +191,7 @@ python agenten/agent.py --agent koordinator --modell anthropic "Kurzer Text für
     <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">modelcontextprotocol.io</a>,
     <a href="https://a2a-protocol.org" target="_blank" rel="noopener">a2a-protocol.org</a>,
     <a href="https://github.com/google/A2UI" target="_blank" rel="noopener">A2UI</a>,
-    <a href="https://github.com/FlowTheTensor/SQLite-per-MCP" target="_blank" rel="noopener">SQLite-per-MCP</a></p>
+    <a href="https://github.com/FlowTheTensor/SQLite-per-MCP/tree/agenten-erweiterung" target="_blank" rel="noopener">SQLite-per-MCP</a></p>
   <p>Der Fortschritt wird nur in diesem Browser gespeichert. <button class="linkbtn" id="reset-progress">Fortschritt zurücksetzen</button></p>
 </footer>
 

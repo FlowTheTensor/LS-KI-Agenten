@@ -22,10 +22,10 @@ Der Fortschritt wird nur im `localStorage` des Browsers gespeichert (Schlüssel 
 
 ## Praxis-Repo
 
-Alles, was die Lernseite im Browser simuliert, läuft echt im Projekt [SQLite-per-MCP](https://github.com/FlowTheTensor/SQLite-per-MCP), Teil 2 (`agenten/`):
+Alles, was die Lernseite im Browser simuliert, läuft echt im Projekt [SQLite-per-MCP](https://github.com/FlowTheTensor/SQLite-per-MCP/tree/agenten-erweiterung), Teil 2 (`agenten/`):
 ein Harness in Python, in dem jede Zeile lesbar ist, mit `--modell mensch` (du spielst das LLM), `ollama` oder `anthropic`, dazu n8n als zweiter Harness.
 Die Simulation verwendet dieselben Protokoll-Etiketten (`[MENSCH ]`, `[HARNESS]`, `[LLM    ]`, `[MCP    ]`, `[AGENT  ]`, `[FEHLER ]`), dieselben Agenten-Definitionen und dieselbe Rechteprüfung wie `agenten/harness/harness.py`.
-Die Lernseite verlinkt auf den Branch `main` des Praxis-Repos.
+Teil 2 liegt im Branch `agenten-erweiterung` des Praxis-Repos (nicht in `main`). Alle Links der Lernseite zeigen auf diesen Branch.
 
 ## Aufbau
 
@@ -84,7 +84,7 @@ Lokal testen: einfach `index.html` im Browser öffnen, oder `python -m http.serv
 - [MCP-Spezifikation](https://modelcontextprotocol.io/specification)
 - [A2A-Protokoll](https://a2a-protocol.org)
 - [A2UI](https://github.com/google/A2UI)
-- [SQLite-per-MCP, Teil 2: Agenten](https://github.com/FlowTheTensor/SQLite-per-MCP/blob/main/agenten/README.md)
+- [SQLite-per-MCP, Teil 2: Agenten](https://github.com/FlowTheTensor/SQLite-per-MCP/blob/agenten-erweiterung/agenten/README.md)
 
 ## Farbschema hell/dunkel
 
