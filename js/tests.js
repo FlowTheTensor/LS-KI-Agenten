@@ -327,7 +327,7 @@ Du bist der Koordinator eines kleinen Agenten-Teams ...`;
       explain: "Wie bei jedem Tool liest das LLM Name und Beschreibung. Eine schlechte Beschreibung führt zu falschen Delegationen."
     },
     {
-      q: "Der Koordinator schreibt an den Analysten nur: „Berechne den Mathe-Schnitt.“ Was geht schief?",
+      q: "Der Koordinator schreibt an den Analysten nur: „Berechne den Informatik-Schnitt.“ Was geht schief?",
       opts: ["Stille Post: Der Analyst kennt die Klasse nicht, weil er den Verlauf des Koordinators nicht sieht", "Nichts, der Analyst liest den Verlauf mit", "Der Analyst fragt automatisch den Menschen", "Der Harness ergänzt die Klasse"],
       explain: "Jeder Unteragent startet mit leerem Verlauf. Jeder Auftrag muss alle nötigen Informationen enthalten."
     },

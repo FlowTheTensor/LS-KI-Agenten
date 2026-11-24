@@ -67,10 +67,10 @@
     <p>Ruft der Koordinator so ein „Tool“ auf, startet der Harness einen <strong>neuen Agenten mit leerem Verlauf</strong>.
       Dessen Endergebnis kommt als Tool-Ergebnis zum Koordinator zurück. Im Protokoll erscheinen Unteragenten eingerückt:</p>
 <pre class="log">[AGENT  ] ▶ Agent 'koordinator' startet
-[LLM    ] möchte Tool 'delegiere_an_datenbank-analyst' mit {"auftrag": "Berechne den Mathe-Schnitt der 7a."}
+[LLM    ] möchte Tool 'delegiere_an_datenbank-analyst' mit {"auftrag": "Berechne den Informatik-Schnitt der 10a."}
     │ [AGENT  ] ▶ Agent 'datenbank-analyst' startet
     │ [MCP    ] tools/call → query_database
-    │ [LLM    ] Der Mathe-Schnitt der 7a beträgt 2,76.
+    │ [LLM    ] Der Informatik-Schnitt der 10a beträgt 2,05.
     │ [AGENT  ] ■ Agent 'datenbank-analyst' ist fertig (3 Schritt(e)).
 [HARNESS] Ergebnis von 'datenbank-analyst' geht zurück an 'koordinator'.</pre>
     <table class="tbl">
@@ -95,7 +95,7 @@
   <article class="station" id="lvl4-s2">
     <div class="crumb">LVL 4 · Station 2 · <span class="tag">Interaktiv</span></div>
     <h3>Team-Baukasten</h3>
-    <p>Auftrag an das Team: <em>„Schreibe eine kurze Zwischenstand-Rückmeldung für die Klasse 7a in Mathematik, die ich vor der nächsten Schulaufgabe an alle verschicken kann.“</em>
+    <p>Auftrag an das Team: <em>„Schreibe eine kurze Zwischenstand-Rückmeldung für die Klasse 10a in Informatik, die ich vor der nächsten Schulaufgabe an alle verschicken kann.“</em>
       Verteile die Rechte, prüfe sie nach dem Prinzip der minimalen Rechte und lass das Team laufen.</p>
     <div class="widget" id="team">
       <div class="tm-wrap"><table class="tm-matrix" id="tm-matrix"></table></div>

@@ -26,7 +26,16 @@
         [11, "Emma", "Werner", "7a", "2012-02-27", "emma.werner@schule.de"],
         [12, "Ben", "Fischer", "7a", "2012-10-11", "ben.fischer@schule.de"],
         [13, "Lina", "Hoffmann", "5a", "2014-06-21", "lina.hoffmann@schule.de"],
-        [14, "Tim", "Becker", "5a", "2014-01-09", "tim.becker@schule.de"]
+        [14, "Tim", "Becker", "5a", "2014-01-09", "tim.becker@schule.de"],
+        // ab id 15: mehr Schüler für 10a und 10b (Team-Lauf in LVL 4: Rückmeldung an die 10a in Informatik)
+        [15, "Lukas", "Schwarz", "10a", "2009-06-05", "lukas.schwarz@schule.de"],
+        [16, "Hannah", "Neumann", "10a", "2009-09-18", "hannah.neumann@schule.de"],
+        [17, "Elias", "Braun", "10a", "2010-01-22", "elias.braun@schule.de"],
+        [18, "Marie", "Hartmann", "10a", "2009-04-30", "marie.hartmann@schule.de"],
+        [19, "Finn", "Krüger", "10b", "2009-08-14", "finn.krueger@schule.de"],
+        [20, "Laura", "Lange", "10b", "2009-11-02", "laura.lange@schule.de"],
+        [21, "David", "Vogel", "10b", "2010-02-11", "david.vogel@schule.de"],
+        [22, "Sarah", "König", "10b", "2009-07-27", "sarah.koenig@schule.de"]
       ]
     },
     lehrer: {
@@ -43,7 +52,8 @@
     kurse: {
       cols: [["id", "INTEGER"], ["fach", "TEXT"], ["klasse", "TEXT"], ["lehrer_id", "INTEGER"]],
       rows: [[1, "Mathematik", "5a", 1], [2, "Informatik", "10a", 5], [3, "Deutsch", "5a", 3], [4, "Sport", "7a", 2], [5, "Englisch", "8b", 4],
-        [6, "Mathematik", "7a", 2], [7, "Deutsch", "7a", 3]]
+        [6, "Mathematik", "7a", 2], [7, "Deutsch", "7a", 3],
+        [8, "Informatik", "10b", 10]] // zweiter Informatik-Kurs: Ohne ihn fiele die stille Post in LVL 4 nicht auf
     },
     noten: {
       cols: [["id", "INTEGER"], ["schueler_id", "INTEGER"], ["kurs_id", "INTEGER"], ["note", "REAL"], ["datum", "DATE"], ["art", "TEXT"]],
@@ -58,7 +68,18 @@
         [15, 12, 6, 4.3, "2026-10-14", "Schulaufgabe"], [16, 9, 6, 1.0, "2026-11-04", "mündlich"],
         [17, 10, 6, 3.0, "2026-11-04", "mündlich"], [18, 12, 6, 3.7, "2026-11-04", "mündlich"],
         [19, 4, 7, 2.0, "2026-10-21", "Schulaufgabe"], [20, 9, 7, 2.3, "2026-10-21", "Schulaufgabe"],
-        [21, 11, 7, 1.3, "2026-10-21", "Schulaufgabe"], [22, 12, 7, 3.3, "2026-10-21", "Schulaufgabe"]
+        [21, 11, 7, 1.3, "2026-10-21", "Schulaufgabe"], [22, 12, 7, 3.3, "2026-10-21", "Schulaufgabe"],
+        // Informatik 10a (Kurs 2): 6 Schüler, Schulaufgabe und mündlich, Schnitt 2,05
+        [23, 15, 2, 2.0, "2026-10-20", "Schulaufgabe"], [24, 16, 2, 1.7, "2026-10-20", "Schulaufgabe"],
+        [25, 17, 2, 3.0, "2026-10-20", "Schulaufgabe"], [26, 18, 2, 2.7, "2026-10-20", "Schulaufgabe"],
+        [27, 7, 2, 1.3, "2026-11-06", "mündlich"], [28, 8, 2, 2.0, "2026-11-06", "mündlich"],
+        [29, 15, 2, 2.3, "2026-11-06", "mündlich"], [30, 16, 2, 1.0, "2026-11-06", "mündlich"],
+        [31, 17, 2, 3.3, "2026-11-06", "mündlich"], [32, 18, 2, 2.0, "2026-11-06", "mündlich"],
+        // Informatik 10b (Kurs 8): deutlich schwächer, Schnitt 3,41 (beide Kurse zusammen: 2,60)
+        [33, 19, 8, 3.7, "2026-10-21", "Schulaufgabe"], [34, 20, 8, 3.0, "2026-10-21", "Schulaufgabe"],
+        [35, 21, 8, 4.3, "2026-10-21", "Schulaufgabe"], [36, 22, 8, 3.3, "2026-10-21", "Schulaufgabe"],
+        [37, 19, 8, 3.3, "2026-11-07", "mündlich"], [38, 20, 8, 2.7, "2026-11-07", "mündlich"],
+        [39, 21, 8, 4.0, "2026-11-07", "mündlich"], [40, 22, 8, 3.0, "2026-11-07", "mündlich"]
       ]
     }
   };
@@ -664,13 +685,14 @@ Lass wichtige Zahlen immer vom pruefer kontrollieren, bevor sie in einen Text ge
     }
     const start = (agent, auftrag, tiefe) => { kontexte[agent] = { verlauf: tok(auftrag) }; add("AGENT", `▶ Agent '${agent}' startet · Tools: ${toolsVon(agent).join(", ") || "(keine)"}`, tiefe); };
 
-    const auftrag = "Schreibe eine kurze Zwischenstand-Rückmeldung für die Klasse 7a in Mathematik, die ich vor der nächsten Schulaufgabe an alle verschicken kann.";
-    const sql7a = "SELECT AVG(note) FROM noten WHERE kurs_id = 6";
-    const schnitt7a = JSON.parse(mcpAufruf(db, "query_database", { query: sql7a }))[0]["AVG(note)"];
-    const alleMathe = runde((JSON.parse(mcpAufruf(db, "query_database", { query: "SELECT SUM(note) FROM noten WHERE kurs_id = 6" }))[0]["SUM(note)"] +
-      JSON.parse(mcpAufruf(db, "query_database", { query: "SELECT SUM(note) FROM noten WHERE kurs_id = 1" }))[0]["SUM(note)"]) /
-      (JSON.parse(mcpAufruf(db, "query_database", { query: "SELECT COUNT(*) FROM noten WHERE kurs_id = 6" }))[0]["COUNT(*)"] +
-        JSON.parse(mcpAufruf(db, "query_database", { query: "SELECT COUNT(*) FROM noten WHERE kurs_id = 1" }))[0]["COUNT(*)"]), 4);
+    const auftrag = "Schreibe eine kurze Zwischenstand-Rückmeldung für die Klasse 10a in Informatik, die ich vor der nächsten Schulaufgabe an alle verschicken kann.";
+    // Kurs 2 = Informatik 10a, Kurs 8 = Informatik 10b
+    const sql10a = "SELECT AVG(note) FROM noten WHERE kurs_id = 2";
+    const schnitt10a = JSON.parse(mcpAufruf(db, "query_database", { query: sql10a }))[0]["AVG(note)"];
+    // Das Mini-SQL kennt kein IN und kein JOIN: Schnitt über beide Kurse aus Summen und Anzahlen zusammensetzen
+    const wert = (q, spalte) => JSON.parse(mcpAufruf(db, "query_database", { query: q }))[0][spalte];
+    const alleInfo = runde((wert("SELECT SUM(note) FROM noten WHERE kurs_id = 2", "SUM(note)") + wert("SELECT SUM(note) FROM noten WHERE kurs_id = 8", "SUM(note)")) /
+      (wert("SELECT COUNT(*) FROM noten WHERE kurs_id = 2", "COUNT(*)") + wert("SELECT COUNT(*) FROM noten WHERE kurs_id = 8", "COUNT(*)")), 4);
     const f = x => x.toFixed(2).replace(".", ",");
     let fazit = [];
 
@@ -691,17 +713,17 @@ Lass wichtige Zahlen immer vom pruefer kontrollieren, bevor sie in einen Text ge
         llm(a, "tool describe_table noten", "Spalten: id, schueler_id, kurs_id, note, datum, art");
         add("MCP", "describe_table → noten: id, schueler_id, kurs_id, note, datum, art", 1);
       } else {
-        llm(a, "tool query_database SELECT AVG(note) FROM noten WHERE fach = 'Mathematik'", "Fehler: no such column: fach");
-        add("LLM", "rät die Spaltennamen: SELECT AVG(note) FROM noten WHERE fach = 'Mathematik'", 1);
+        llm(a, "tool query_database SELECT AVG(note) FROM noten WHERE fach = 'Informatik'", "Fehler: no such column: fach");
+        add("LLM", "rät die Spaltennamen: SELECT AVG(note) FROM noten WHERE fach = 'Informatik'", 1);
         add("FEHLER", "Fehler: no such column: fach", 1);
       }
-      llm(a, "tool query_database SELECT id FROM kurse WHERE fach='Mathematik'" + (richtig ? " AND klasse='7a'" : ""), "[...]");
-      const wert = richtig ? schnitt7a : alleMathe;
-      add("MCP", richtig ? `query_database → Kurs 6 (Mathematik 7a), Schnitt ${f(wert)}` : `query_database → Kurse 1 und 6 (Mathematik 5a UND 7a), Schnitt ${f(wert)}`, 1);
-      llm(a, `Der Mathe-Schnitt beträgt ${f(wert)}.`);
-      add("LLM", `Der Mathe-Schnitt beträgt ${f(wert)}.` + (richtig ? "" : " (Welche Klasse? Stand nicht im Auftrag. Also alle.)"), 1);
+      llm(a, "tool query_database SELECT id FROM kurse WHERE fach='Informatik'" + (richtig ? " AND klasse='10a'" : ""), "[...]");
+      const schnitt = richtig ? schnitt10a : alleInfo;
+      add("MCP", richtig ? `query_database → Kurs 2 (Informatik 10a), Schnitt ${f(schnitt)}` : `query_database → Kurse 2 und 8 (Informatik 10a UND 10b), Schnitt ${f(schnitt)}`, 1);
+      llm(a, `Der Informatik-Schnitt beträgt ${f(schnitt)}.`);
+      add("LLM", `Der Informatik-Schnitt beträgt ${f(schnitt)}.` + (richtig ? "" : " (Welche Klasse? Stand nicht im Auftrag. Also alle.)"), 1);
       add("AGENT", "■ fertig, Ergebnis geht an den Koordinator", 1);
-      return wert;
+      return schnitt;
     }
 
     let zahl = null;
@@ -709,7 +731,7 @@ Lass wichtige Zahlen immer vom pruefer kontrollieren, bevor sie in einen Text ge
       llm("koordinator", "Ich kann niemanden beauftragen.");
       if (hat("koordinator", "query_database")) {
         llm("koordinator", "tool query_database …", "[…]");
-        zahl = schnitt7a;
+        zahl = schnitt10a;
         add("MCP", `koordinator fragt selbst ab: Schnitt ${f(zahl)}`, 0);
         fazit.push(["warn", "Kein Team: Der Koordinator hat alles selbst gemacht. Niemand hat geprüft."]);
       } else {
@@ -718,7 +740,7 @@ Lass wichtige Zahlen immer vom pruefer kontrollieren, bevor sie in einen Text ge
         return { zeilen: z, verbrauch, fazit, einzel: einzelVerbrauch() };
       }
     } else {
-      const teil = opt.stillePost ? "Berechne den Notendurchschnitt in Mathematik." : "Berechne den Notendurchschnitt der Klasse 7a in Mathematik.";
+      const teil = opt.stillePost ? "Berechne den Notendurchschnitt in Informatik." : "Berechne den Notendurchschnitt der Klasse 10a in Informatik.";
       llm("koordinator", `tool delegiere_an_datenbank-analyst {"auftrag": "${teil}"}`);
       add("LLM", `delegiere_an_datenbank-analyst: „${teil}“`, 0);
       if (opt.stillePost) add("HINWEIS", "Stille Post: Die Klasse fehlt im Auftrag. Der Analyst kennt den Verlauf des Koordinators nicht.", 0);
@@ -730,21 +752,21 @@ Lass wichtige Zahlen immer vom pruefer kontrollieren, bevor sie in einen Text ge
       kontexte.koordinator.verlauf += 20;
       // Prüfer
       const p = "pruefer";
-      const pruefAuftrag = `Prüfe: Der Mathe-Schnitt der Klasse 7a beträgt ${f(zahl)}.`;
+      const pruefAuftrag = `Prüfe: Der Informatik-Schnitt der Klasse 10a beträgt ${f(zahl)}.`;
       llm("koordinator", `tool delegiere_an_pruefer {"auftrag": "${pruefAuftrag}"}`);
       add("LLM", `delegiere_an_pruefer: „${pruefAuftrag}“`, 0);
       start(p, pruefAuftrag, 1);
       if (hat(p, "query_database")) {
-        llm(p, "tool query_database SELECT AVG(note) FROM noten WHERE kurs_id = 6", "[…]");
-        add("MCP", `query_database → eigene Abfrage: ${sql7a} → ${f(schnitt7a)}`, 1);
-        if (Math.abs(zahl - schnitt7a) > 0.001) {
-          llm(p, `KORREKTUR NÖTIG: richtig ist ${f(schnitt7a)}`);
-          add("LLM", `KORREKTUR NÖTIG: Der Schnitt der 7a ist ${f(schnitt7a)}, nicht ${f(zahl)}.`, 1);
+        llm(p, `tool query_database ${sql10a}`, "[…]");
+        add("MCP", `query_database → eigene Abfrage: ${sql10a} → ${f(schnitt10a)}`, 1);
+        if (Math.abs(zahl - schnitt10a) > 0.001) {
+          llm(p, `KORREKTUR NÖTIG: richtig ist ${f(schnitt10a)}`);
+          add("LLM", `KORREKTUR NÖTIG: Der Schnitt der 10a ist ${f(schnitt10a)}, nicht ${f(zahl)}.`, 1);
           add("AGENT", "■ fertig", 1);
           llm("koordinator", "Der Prüfer hat korrigiert. Ich übernehme den geprüften Wert.");
-          add("LLM", `Der Prüfer hat korrigiert. Ich verwende ${f(schnitt7a)}.`, 0);
-          fazit.push(["good", `Der Prüfer hat den Fehler aus der stillen Post gefunden (${f(zahl)} → ${f(schnitt7a)}). Das Vier-Augen-Prinzip wirkt, kostet aber zusätzliche Tokens.`]);
-          zahl = schnitt7a;
+          add("LLM", `Der Prüfer hat korrigiert. Ich verwende ${f(schnitt10a)}.`, 0);
+          fazit.push(["good", `Der Prüfer hat den Fehler aus der stillen Post gefunden (${f(zahl)} → ${f(schnitt10a)}). Das Vier-Augen-Prinzip wirkt, kostet aber zusätzliche Tokens.`]);
+          zahl = schnitt10a;
         } else {
           llm(p, "BESTÄTIGT");
           add("LLM", "BESTÄTIGT", 1);
@@ -754,20 +776,20 @@ Lass wichtige Zahlen immer vom pruefer kontrollieren, bevor sie in einen Text ge
         llm(p, "Ich kann das nicht prüfen, ich habe keinen Datenbankzugriff. BESTÄTIGT.");
         add("LLM", "Ich kann nicht selbst abfragen … BESTÄTIGT. (Ein Prüfer ohne Werkzeug nickt nur ab.)", 1);
         add("AGENT", "■ fertig", 1);
-        if (Math.abs(zahl - schnitt7a) > 0.001) fazit.push(["bad", `Falsche Zahl in der Rückmeldung an die Klasse: ${f(zahl)} statt ${f(schnitt7a)}. Der Prüfer konnte nichts nachprüfen.`]);
+        if (Math.abs(zahl - schnitt10a) > 0.001) fazit.push(["bad", `Falsche Zahl in der Rückmeldung an die Klasse: ${f(zahl)} statt ${f(schnitt10a)}. Der Prüfer konnte nichts nachprüfen.`]);
       }
       // Autor
       const b = "berichtsautor";
-      const autorAuftrag = `Schreibe eine kurze Zwischenstand-Rückmeldung an die Klasse 7a: Der Notendurchschnitt in Mathematik liegt bei ${f(zahl)}. Die nächste Schulaufgabe steht bevor.`;
+      const autorAuftrag = `Schreibe eine kurze Zwischenstand-Rückmeldung an die Klasse 10a: Der Notendurchschnitt in Informatik liegt bei ${f(zahl)}. Die nächste Schulaufgabe steht bevor.`;
       llm("koordinator", `tool delegiere_an_berichtsautor {"auftrag": "${autorAuftrag}"}`);
       add("LLM", "delegiere_an_berichtsautor: „" + autorAuftrag + "“", 0);
       start(b, autorAuftrag, 1);
       if (hat(b, "query_database")) {
-        llm(b, "tool query_database SELECT vorname, nachname, note FROM … WHERE klasse = '7a'", "[…]");
-        add("MCP", "query_database → Namen und Einzelnoten der 7a (der Autor schaut „zur Sicherheit“ nach)", 1);
+        llm(b, "tool query_database SELECT vorname, nachname, note FROM … WHERE klasse = '10a'", "[…]");
+        add("MCP", "query_database → Namen und Einzelnoten der 10a (der Autor schaut „zur Sicherheit“ nach)", 1);
         fazit.push(["bad", "Datenschutz-Risiko: Der Berichtsautor hatte Datenbankzugriff und hat Schülernamen und Einzelnoten in seinen Kontext geholt."]);
       }
-      const brief = `Zwischenstand Mathematik, Klasse 7a: Der Notendurchschnitt der Klasse liegt derzeit bei ${f(zahl)}. Nutzen Sie die Zeit bis zur nächsten Schulaufgabe zum gezielten Üben …`;
+      const brief = `Zwischenstand Informatik, Klasse 10a: Der Notendurchschnitt der Klasse liegt derzeit bei ${f(zahl)}. Nutzen Sie die Zeit bis zur nächsten Schulaufgabe zum gezielten Üben …`;
       llm(b, brief);
       add("LLM", brief, 1);
       add("AGENT", "■ fertig", 1);
@@ -775,14 +797,14 @@ Lass wichtige Zahlen immer vom pruefer kontrollieren, bevor sie in einen Text ge
       add("LLM", "Hier ist der Text. Analyst: Zahl · Prüfer: Kontrolle · Autor: Formulierung.", 0);
     }
     TEAM_AGENTEN.forEach(a => { if (hat(a, "add_grade")) fazit.push(["warn", `${a} hatte add_grade. Diesmal ist nichts passiert, aber das Recht war unnötig.`]); });
-    if (!fazit.some(x => x[0] === "bad")) fazit.unshift(["good", `Ergebnis: Mathe-Schnitt der 7a = ${f(zahl)} ✓`]);
+    if (!fazit.some(x => x[0] === "bad")) fazit.unshift(["good", `Ergebnis: Informatik-Schnitt der 10a = ${f(zahl)} ✓`]);
     add("MENSCH", "S5 · Ergebnis gelesen", 0);
-    return { zeilen: z, verbrauch, fazit, einzel: einzelVerbrauch(), richtig: Math.abs(zahl - schnitt7a) < 0.001 };
+    return { zeilen: z, verbrauch, fazit, einzel: einzelVerbrauch(), richtig: Math.abs(zahl - schnitt10a) < 0.001 };
 
     function einzelVerbrauch() { // derselbe Analyst allein, mit vollständigem Auftrag
       const d = DEFS["datenbank-analyst"];
       let verlauf = tok(auftrag), ein = 0, aus = 0;
-      ["tool describe_table noten", "tool query_database SELECT …", "Der Mathe-Schnitt der 7a beträgt 2,76. Text: Zwischenstand für die Klasse …"].forEach(o => {
+      ["tool describe_table noten", "tool query_database SELECT …", `Der Informatik-Schnitt der 10a beträgt ${f(schnitt10a)}. Text: Zwischenstand für die Klasse …`].forEach(o => {
         ein += tok(systemPrompt(d)) + 3 * 70 + verlauf; aus += tok(o); verlauf += tok(o) + 15;
       });
       return { aufrufe: 3, ein, aus };
