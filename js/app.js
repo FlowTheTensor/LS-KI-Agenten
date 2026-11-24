@@ -239,7 +239,7 @@
     const root = $("#schleife");
     if (!root) return;
     const svg = $("#sl-svg"), logEl = $("#sl-log");
-    const K = [["Kontext bauen", 232, 34], ["LLM fragen", 384, 140], ["Prüfen & ausführen", 232, 246], ["Ergebnis anhängen", 82, 140]];
+    const K = [["Kontext bauen", 232, 34], ["LLM fragen", 384, 140], ["Prüfen & ausführen", 232, 246], ["Kontext erweitern", 82, 140]];
     svgEl("circle", { cx: 232, cy: 140, r: 106, class: "sl-ring" }, svg);
     const knoten = K.map(([t, x, y], i) => {
       const g = svgEl("g", { class: "sl-node" }, svg);
@@ -262,11 +262,13 @@
       { k: 1, n: 1, s: 1, txt: "Der Harness schickt System-Prompt, Verlauf (1 Nachricht) und Toolliste an das LLM.", z: [["HARNESS", "Schritt 1/10: sende 1 Nachricht(en) + 3 Tool(s) an das LLM …"]] },
       { k: 1, n: 2, s: 1, txt: "Das LLM kennt die Spalten nicht. Es antwortet mit einem <strong>Tool-Wunsch</strong>, nicht mit Text.", z: [["LLM", "möchte Tool 'describe_table' mit {\"table_name\": \"schueler\"}"]] },
       { k: 2, n: 2, s: 1, txt: "Der Harness prüft: Steht <code>describe_table</code> in <code>tools</code>? Ja. Also ruft er das Tool über MCP auf.", z: [["MCP", "tools/call → describe_table"], ["MCP", "Ergebnis: [id, vorname, nachname, klasse, geburtsdatum, email]"]] },
-      { k: 3, n: 3, s: 1, txt: "Das Ergebnis kommt <strong>in den Verlauf</strong>. Nur so erfährt das LLM davon.", z: [] },
-      { k: 1, n: 3, s: 2, txt: "Zweite Runde: Der Harness schickt jetzt 3 Nachrichten. Das LLM sieht sein eigenes Tool-Ergebnis von eben.", z: [["HARNESS", "Schritt 2/10: sende 3 Nachricht(en) + 3 Tool(s) an das LLM …"], ["LLM", `möchte Tool 'query_database' mit {"query": "${q}"}`]] },
+      { k: 3, n: 3, s: 1, txt: "<strong>Kontext erweitern:</strong> Tool-Wunsch und Ergebnis kommen <strong>in den Verlauf</strong>. Nur so erfährt das LLM davon. Der Verlauf hat jetzt 3 Nachrichten.", z: [] },
+      { k: 0, n: 3, s: 2, txt: "Zweite Runde, wieder <strong>Kontext bauen</strong>: Das LLM merkt sich nichts. Darum stellt der Harness das Paket neu zusammen: gleicher System-Prompt, gleiche Toolliste, aber der <strong>erweiterte Verlauf</strong> mit 3 Nachrichten.", z: [] },
+      { k: 1, n: 3, s: 2, txt: "Der Harness schickt das neue Paket. Das LLM sieht sein eigenes Tool-Ergebnis von eben und wünscht sich das nächste Tool.", z: [["HARNESS", "Schritt 2/10: sende 3 Nachricht(en) + 3 Tool(s) an das LLM …"], ["LLM", `möchte Tool 'query_database' mit {"query": "${q}"}`]] },
       { k: 2, n: 4, s: 2, txt: "Wieder prüfen und ausführen. Der Server führt die Abfrage aus (nur SELECT ist erlaubt).", z: [["MCP", "tools/call → query_database"], ["MCP", "Ergebnis: [{\"COUNT(*)\": 5}]"]] },
-      { k: 3, n: 5, s: 2, txt: "Ergebnis anhängen: Der Verlauf hat jetzt 5 Nachrichten.", z: [] },
-      { k: 1, n: 5, s: 3, txt: "Dritte Runde. Das LLM hat alles, was es braucht.", z: [["HARNESS", "Schritt 3/10: sende 5 Nachricht(en) + 3 Tool(s) an das LLM …"]] },
+      { k: 3, n: 5, s: 2, txt: "<strong>Kontext erweitern:</strong> Der Verlauf hat jetzt 5 Nachrichten.", z: [] },
+      { k: 0, n: 5, s: 3, txt: "Dritte Runde, <strong>Kontext bauen</strong>: System-Prompt, Toolliste und der Verlauf mit jetzt 5 Nachrichten. Das Paket wird mit jeder Runde größer, und damit teurer.", z: [] },
+      { k: 1, n: 5, s: 3, txt: "Der Harness schickt das Paket. Das LLM hat jetzt alles, was es braucht.", z: [["HARNESS", "Schritt 3/10: sende 5 Nachricht(en) + 3 Tool(s) an das LLM …"]] },
       { k: 4, n: 6, s: 3, txt: "Das LLM antwortet <strong>nur mit Text</strong>, ohne Tool-Wunsch. Damit endet die Schleife. Der Mensch bekommt das Ergebnis (S5).", z: [["LLM", "Die Klasse 7a hat 5 Schüler."], ["AGENT", "■ Agent 'datenbank-analyst' ist fertig (3 Schritt(e))."]] }
     ];
     let cur = 0;
