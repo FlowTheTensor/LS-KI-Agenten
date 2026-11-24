@@ -15,8 +15,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-<script src="js/farbschema.js"></script>
-<link rel="stylesheet" href="css/style.css">
+<script src="js/farbschema.js?v=20261124"></script>
+<link rel="stylesheet" href="css/style.css?v=20261124">
 </head>
 <body>
 
@@ -146,7 +146,7 @@
     <div class="grid2 gr-paar">
       <figure class="card gr-karte">
         <figcaption class="gr-titel">Workflow: „Übersetze jede neue E-Mail“</figcaption>
-        <svg class="gr-svg" viewBox="0 0 300 250" role="img" aria-label="Workflow als Graph: START, E-Mail holen, übersetzen mit LLM, speichern, ENDE. Alle Kanten sind fest, es gibt keine Schleife.">
+        <svg class="gr-svg" width="300" height="250" viewBox="0 0 300 250" role="img" aria-label="Workflow als Graph: START, E-Mail holen, übersetzen mit LLM, speichern, ENDE. Alle Kanten sind fest, es gibt keine Schleife.">
           <defs>
             <marker id="gr-pf-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="gr-pf-fest" d="M0,0 L10,5 L0,10 z"/></marker>
           </defs>
@@ -164,7 +164,7 @@
       </figure>
       <figure class="card gr-karte">
         <figcaption class="gr-titel">Agent: <code>datenbank-analyst</code></figcaption>
-        <svg class="gr-svg" viewBox="0 0 300 250" role="img" aria-label="Agent als Graph: START führt zum Knoten llm. Von llm geht eine bedingte Kante bei Tool-Wunsch zum Knoten tools und bei reiner Textantwort zu ENDE. Von tools führt eine feste Kante zurück zu llm. Das ist die Schleife.">
+        <svg class="gr-svg" width="300" height="250" viewBox="0 0 300 250" role="img" aria-label="Agent als Graph: START führt zum Knoten llm. Von llm geht eine bedingte Kante bei Tool-Wunsch zum Knoten tools und bei reiner Textantwort zu ENDE. Von tools führt eine feste Kante zurück zu llm. Das ist die Schleife.">
           <defs>
             <marker id="gr-pf-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="gr-pf-fest" d="M0,0 L10,5 L0,10 z"/></marker>
             <marker id="gr-pf-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="gr-pf-bed" d="M0,0 L10,5 L0,10 z"/></marker>
@@ -185,8 +185,8 @@
       </figure>
     </div>
     <p class="gr-legende">
-      <span><svg class="gr-l" viewBox="0 0 34 10" aria-hidden="true"><line class="gr-fest" x1="1" y1="5" x2="26" y2="5"/><path class="gr-pf-fest" d="M25,1 L33,5 L25,9 z"/></svg> feste Kante: immer derselbe nächste Schritt</span>
-      <span><svg class="gr-l" viewBox="0 0 34 10" aria-hidden="true"><line class="gr-bed" x1="1" y1="5" x2="26" y2="5"/><path class="gr-pf-bed" d="M25,1 L33,5 L25,9 z"/></svg> bedingte Kante: Weiche, entscheidet anhand der LLM-Antwort</span></p>
+      <span><svg class="gr-l" width="34" height="10" viewBox="0 0 34 10" aria-hidden="true"><line class="gr-fest" x1="1" y1="5" x2="26" y2="5"/><path class="gr-pf-fest" d="M25,1 L33,5 L25,9 z"/></svg> feste Kante: immer derselbe nächste Schritt</span>
+      <span><svg class="gr-l" width="34" height="10" viewBox="0 0 34 10" aria-hidden="true"><line class="gr-bed" x1="1" y1="5" x2="26" y2="5"/><path class="gr-pf-bed" d="M25,1 L33,5 L25,9 z"/></svg> bedingte Kante: Weiche, entscheidet anhand der LLM-Antwort</span></p>
     <p class="note"><strong>Der Agenten-Graph ist winzig.</strong> Das Spannende, also welches Tool mit welcher Abfrage, passiert <em>im</em> Knoten <code>llm</code>.
       Graphen lohnen sich, wenn man den Agenten <strong>einschränken</strong> will: Je mehr Kanten fest verdrahtet sind, desto näher rückt das System an einen Workflow.
       So lassen sich auch die nächsten Level zeichnen: ein Prüfknoten vor <code>tools</code> (<a href="lvl2.html">LVL 2</a>), ein Halt für die Freigabe durch den Menschen (<a href="lvl3.html">LVL 3</a>),
@@ -254,8 +254,8 @@ agent.invoke({"messages": [("user", "Wie viele Schüler hat die Klasse 7a?")]})<
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="js/tests.js"></script>
-<script src="js/agentsim.js"></script>
-<script src="js/app.js"></script>
+<script src="js/tests.js?v=20261124"></script>
+<script src="js/agentsim.js?v=20261124"></script>
+<script src="js/app.js?v=20261124"></script>
 </body>
 </html>
