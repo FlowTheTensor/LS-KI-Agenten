@@ -787,28 +787,23 @@ html.hellmodus .a-llm { fill: #f3ecfb; }
 .a-gap { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 4; }
 .a-gap-end { stroke-dasharray: none; }
 
-/* LVL 1 Station 5: Ablauf als Graph (Workflow vs. Agent) */
+/* LVL 1 Station 5: Ablauf als Graph (Mermaid im Stil von LangGraphs draw_mermaid()) */
 .gr-paar { margin: 1rem 0 .4rem; }
-.gr-karte { margin: 0; display: flex; flex-direction: column; gap: .5rem; }
+.gr-karte { margin: 0; display: flex; flex-direction: column; gap: .6rem; }
 .gr-titel { font: 600 13px var(--mono); color: var(--text); }
-.gr-svg { width: 100%; max-width: 340px; height: auto; display: block; margin: 0 auto; }
 .gr-fazit { margin: 0; font-size: .92rem; color: var(--muted); }
-.gr-node rect { fill: var(--panel); stroke: var(--line2); stroke-width: 1.5; }
-.gr-node text, .gr-term text { fill: var(--text); font: 600 12px var(--mono); text-anchor: middle; }
-.gr-node .gr-klein { fill: var(--muted); font: 10px var(--mono); }
-.gr-llm rect { stroke: var(--blue); }
-.gr-llm text:first-of-type { fill: var(--blue); }
-.gr-tool rect { stroke: var(--green); }
-.gr-tool text:first-of-type { fill: var(--green); }
-.gr-term rect { fill: var(--bg2); stroke: var(--muted); stroke-width: 1.2; }
-.gr-term text { fill: var(--muted); font-size: 11px; }
-.gr-fest { fill: none; stroke: var(--cyan); stroke-width: 2; }
-.gr-bed { fill: none; stroke: var(--amber); stroke-width: 2; stroke-dasharray: 6 4; }
-.gr-pf-fest { fill: var(--cyan); }
-.gr-pf-bed { fill: var(--amber); }
-.gr-kante { fill: var(--cyan); font: 10px var(--mono); text-anchor: middle; }
-.gr-kante-bed { fill: var(--amber); }
-.gr-links { text-anchor: start; }
+/* helle Fläche wie das PNG, das LangGraph erzeugt – in beiden Farbschemata */
+.gr-mermaid { background: #ffffff; border: 1px solid var(--line2); border-radius: 8px; padding: .8rem; min-height: 260px; display: flex; align-items: center; justify-content: center; overflow-x: auto; }
+.gr-mermaid pre.mermaid { width: 100%; text-align: center; margin: 0; padding: 0; border: 0; background: transparent; color: #333; font-size: 11px; white-space: pre; }
+.gr-mermaid pre.mermaid svg { display: block; margin: 0 auto; height: auto; max-height: 340px; }
 .gr-legende { display: flex; flex-wrap: wrap; gap: .3rem 1.4rem; font: 12px var(--mono); color: var(--muted); margin: .4rem 0 1rem; }
 .gr-legende span { display: inline-flex; align-items: center; gap: .45rem; }
 .gr-l { width: 34px; height: 10px; flex: none; }
+.gr-fest { fill: none; stroke: var(--text); stroke-width: 1.6; }
+.gr-bed { fill: none; stroke: var(--text); stroke-width: 1.6; stroke-dasharray: 3 3; }
+.gr-pf { fill: var(--text); }
+/* Mermaid-Text Zeichen für Zeichen zeigen (keine Ligaturen wie --> als Pfeil) */
+#lvl1-s5 pre.log, #lvl1-s5 code { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+/* LVL 4 Station 1: breite Team-Übersicht neben dem schmalen, aufgeklappten Teilgraphen */
+.gr-paar-breit { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+@media (max-width: 860px) { .gr-paar-breit { grid-template-columns: minmax(0, 1fr); } }

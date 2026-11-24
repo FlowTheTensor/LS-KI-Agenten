@@ -15,8 +15,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-<script src="js/farbschema.js?v=20261124"></script>
-<link rel="stylesheet" href="css/style.css?v=20261124">
+<script src="js/farbschema.js?v=20261124c"></script>
+<link rel="stylesheet" href="css/style.css?v=20261124c">
 </head>
 <body>
 
@@ -146,47 +146,45 @@
     <div class="grid2 gr-paar">
       <figure class="card gr-karte">
         <figcaption class="gr-titel">Workflow: „Übersetze jede neue E-Mail“</figcaption>
-        <svg class="gr-svg" width="300" height="250" viewBox="0 0 300 250" role="img" aria-label="Workflow als Graph: START, E-Mail holen, übersetzen mit LLM, speichern, ENDE. Alle Kanten sind fest, es gibt keine Schleife.">
-          <defs>
-            <marker id="gr-pf-w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="gr-pf-fest" d="M0,0 L10,5 L0,10 z"/></marker>
-          </defs>
-          <g class="gr-term"><rect x="110" y="8" width="80" height="26" rx="13"/><text x="150" y="25">START</text></g>
-          <line class="gr-fest" x1="150" y1="34" x2="150" y2="52" marker-end="url(#gr-pf-w)"/>
-          <g class="gr-node"><rect x="95" y="54" width="110" height="34" rx="6"/><text x="150" y="75">E-Mail holen</text></g>
-          <line class="gr-fest" x1="150" y1="88" x2="150" y2="106" marker-end="url(#gr-pf-w)"/>
-          <g class="gr-node gr-llm"><rect x="95" y="108" width="110" height="34" rx="6"/><text x="150" y="124">übersetzen</text><text class="gr-klein" x="150" y="136">ruft LLM auf</text></g>
-          <line class="gr-fest" x1="150" y1="142" x2="150" y2="160" marker-end="url(#gr-pf-w)"/>
-          <g class="gr-node"><rect x="95" y="162" width="110" height="34" rx="6"/><text x="150" y="183">speichern</text></g>
-          <line class="gr-fest" x1="150" y1="196" x2="150" y2="214" marker-end="url(#gr-pf-w)"/>
-          <g class="gr-term"><rect x="110" y="216" width="80" height="26" rx="13"/><text x="150" y="233">ENDE</text></g>
-        </svg>
-        <p class="gr-fazit">Nur feste Kanten, keine Schleife. Der Programmierer kennt den Weg schon vorher.</p>
+        <div class="gr-mermaid" role="img" aria-label="Workflow als Graph: __start__, email_holen, uebersetzen, speichern, __end__. Alle Kanten sind fest, es gibt keine Schleife.">
+<pre class="mermaid">graph TD;
+	__start__([&lt;p&gt;__start__&lt;/p&gt;]):::first
+	email_holen(email_holen)
+	uebersetzen(uebersetzen)
+	speichern(speichern)
+	__end__([&lt;p&gt;__end__&lt;/p&gt;]):::last
+	__start__ --> email_holen;
+	email_holen --> uebersetzen;
+	uebersetzen --> speichern;
+	speichern --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc</pre>
+        </div>
+        <p class="gr-fazit">Nur feste Kanten, keine Schleife. Der Programmierer kennt den Weg schon vorher. Das LLM wird nur <em>im</em> Knoten <code>uebersetzen</code> aufgerufen.</p>
       </figure>
       <figure class="card gr-karte">
         <figcaption class="gr-titel">Agent: <code>datenbank-analyst</code></figcaption>
-        <svg class="gr-svg" width="300" height="250" viewBox="0 0 300 250" role="img" aria-label="Agent als Graph: START führt zum Knoten llm. Von llm geht eine bedingte Kante bei Tool-Wunsch zum Knoten tools und bei reiner Textantwort zu ENDE. Von tools führt eine feste Kante zurück zu llm. Das ist die Schleife.">
-          <defs>
-            <marker id="gr-pf-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="gr-pf-fest" d="M0,0 L10,5 L0,10 z"/></marker>
-            <marker id="gr-pf-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="gr-pf-bed" d="M0,0 L10,5 L0,10 z"/></marker>
-          </defs>
-          <g class="gr-term"><rect x="22" y="8" width="80" height="26" rx="13"/><text x="62" y="25">START</text></g>
-          <line class="gr-fest" x1="62" y1="34" x2="62" y2="84" marker-end="url(#gr-pf-a)"/>
-          <g class="gr-node gr-llm"><rect x="10" y="86" width="104" height="44" rx="6"/><text x="62" y="106">llm</text><text class="gr-klein" x="62" y="120">LLM fragen</text></g>
-          <g class="gr-node gr-tool"><rect x="190" y="86" width="104" height="44" rx="6"/><text x="242" y="106">tools</text><text class="gr-klein" x="242" y="120">MCP aufrufen</text></g>
-          <path class="gr-bed" d="M114,94 Q152,52 188,94" marker-end="url(#gr-pf-b)"/>
-          <text class="gr-kante gr-kante-bed" x="152" y="62">Tool-Wunsch</text>
-          <path class="gr-fest" d="M190,122 Q152,164 116,122" marker-end="url(#gr-pf-a)"/>
-          <text class="gr-kante" x="152" y="164">Ergebnis</text>
-          <line class="gr-bed" x1="62" y1="130" x2="62" y2="212" marker-end="url(#gr-pf-b)"/>
-          <text class="gr-kante gr-kante-bed gr-links" x="70" y="186">nur Text</text>
-          <g class="gr-term"><rect x="22" y="214" width="80" height="26" rx="13"/><text x="62" y="231">ENDE</text></g>
-        </svg>
-        <p class="gr-fazit">Eine bedingte Kante und ein Rücksprung. Den Weg wählt das LLM zur Laufzeit.</p>
+        <div class="gr-mermaid" role="img" aria-label="Agent als Graph: __start__ führt zum Knoten llm. Von llm gehen gestrichelte, bedingte Kanten zu tools und zu __end__. Von tools führt eine feste Kante zurück zu llm. Das ist die Schleife.">
+<pre class="mermaid">graph TD;
+	__start__([&lt;p&gt;__start__&lt;/p&gt;]):::first
+	llm(llm)
+	tools(tools)
+	__end__([&lt;p&gt;__end__&lt;/p&gt;]):::last
+	__start__ --> llm;
+	llm -.-> __end__;
+	llm -.-> tools;
+	tools --> llm;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc</pre>
+        </div>
+        <p class="gr-fazit">Zwei gestrichelte Kanten und ein Rücksprung. Ob es zu <code>tools</code> oder zu <code>__end__</code> geht, entscheidet die Antwort des LLM zur Laufzeit.</p>
       </figure>
     </div>
     <p class="gr-legende">
-      <span><svg class="gr-l" width="34" height="10" viewBox="0 0 34 10" aria-hidden="true"><line class="gr-fest" x1="1" y1="5" x2="26" y2="5"/><path class="gr-pf-fest" d="M25,1 L33,5 L25,9 z"/></svg> feste Kante: immer derselbe nächste Schritt</span>
-      <span><svg class="gr-l" width="34" height="10" viewBox="0 0 34 10" aria-hidden="true"><line class="gr-bed" x1="1" y1="5" x2="26" y2="5"/><path class="gr-pf-bed" d="M25,1 L33,5 L25,9 z"/></svg> bedingte Kante: Weiche, entscheidet anhand der LLM-Antwort</span></p>
+      <span><svg class="gr-l" width="34" height="10" viewBox="0 0 34 10" aria-hidden="true"><line class="gr-fest" x1="1" y1="5" x2="26" y2="5"/><path class="gr-pf" d="M25,1 L33,5 L25,9 z"/></svg> durchgezogen: feste Kante, immer derselbe nächste Schritt (<code>add_edge</code>)</span>
+      <span><svg class="gr-l" width="34" height="10" viewBox="0 0 34 10" aria-hidden="true"><line class="gr-bed" x1="1" y1="5" x2="26" y2="5"/><path class="gr-pf" d="M25,1 L33,5 L25,9 z"/></svg> gestrichelt: bedingte Kante, eine Weiche (<code>add_conditional_edges</code>)</span></p>
     <p class="note"><strong>Der Agenten-Graph ist winzig.</strong> Das Spannende, also welches Tool mit welcher Abfrage, passiert <em>im</em> Knoten <code>llm</code>.
       Graphen lohnen sich, wenn man den Agenten <strong>einschränken</strong> will: Je mehr Kanten fest verdrahtet sind, desto näher rückt das System an einen Workflow.
       So lassen sich auch die nächsten Level zeichnen: ein Prüfknoten vor <code>tools</code> (<a href="lvl2.html">LVL 2</a>), ein Halt für die Freigabe durch den Menschen (<a href="lvl3.html">LVL 3</a>),
@@ -212,7 +210,27 @@ graph.add_conditional_edges("llm", tools_condition)          # Weiche: "tools" o
 graph.add_edge("tools", "llm")                               # feste Kante zurück
 agent = graph.compile()
 
+print(agent.get_graph().draw_mermaid())                      # Graph als Mermaid-Text ausgeben
 agent.invoke({"messages": [("user", "Wie viele Schüler hat die Klasse 7a?")]})</pre>
+    <details class="tasks">
+      <summary>Woher kommt das Bild oben?</summary>
+      <p>Die vorletzte Zeile lässt LangGraph den eigenen Graphen als <a href="https://mermaid.js.org" target="_blank" rel="noopener">Mermaid</a>-Text ausgeben.
+        Mermaid ist eine kleine Sprache für Diagramme: Man schreibt Knoten und Pfeile als Text, ein Programm zeichnet daraus das Bild.
+        Genau dieser Text steckt im Agenten-Graph oben (<code>draw_mermaid_png()</code> liefert gleich ein Bild):</p>
+<pre class="log">graph TD;
+	__start__([&lt;p&gt;__start__&lt;/p&gt;]):::first
+	llm(llm)
+	tools(tools)
+	__end__([&lt;p&gt;__end__&lt;/p&gt;]):::last
+	__start__ --&gt; llm;
+	llm -.-&gt; __end__;
+	llm -.-&gt; tools;
+	tools --&gt; llm;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc</pre>
+      <p><code>--&gt;</code> ist eine feste Kante, <code>-.-&gt;</code> eine bedingte. Probiere es aus: Kopiere den Text in den <a href="https://mermaid.live" target="_blank" rel="noopener">Mermaid Live Editor</a> und baue den Knoten <code>pruefen</code> aus Aufgabe 7 ein.</p>
+    </details>
     <details class="tasks">
       <summary>Code deuten</summary>
       <ol>
@@ -254,8 +272,10 @@ agent.invoke({"messages": [("user", "Wie viele Schüler hat die Klasse 7a?")]})<
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="js/tests.js?v=20261124"></script>
-<script src="js/agentsim.js?v=20261124"></script>
-<script src="js/app.js?v=20261124"></script>
+<script src="js/tests.js?v=20261124c"></script>
+<script src="js/agentsim.js?v=20261124c"></script>
+<script src="js/app.js?v=20261124c"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="js/graphen.js?v=20261124c"></script>
 </body>
 </html>

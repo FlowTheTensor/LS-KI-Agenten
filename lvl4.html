@@ -15,8 +15,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-<script src="js/farbschema.js?v=20261124"></script>
-<link rel="stylesheet" href="css/style.css?v=20261124">
+<script src="js/farbschema.js?v=20261124c"></script>
+<link rel="stylesheet" href="css/style.css?v=20261124c">
 </head>
 <body>
 
@@ -73,6 +73,58 @@
     │ [LLM    ] Der Informatik-Schnitt der 10a beträgt 2,05.
     │ [AGENT  ] ■ Agent 'datenbank-analyst' ist fertig (3 Schritt(e)).
 [HARNESS] Ergebnis von 'datenbank-analyst' geht zurück an 'koordinator'.</pre>
+    <p>Als Graph gezeichnet, im Stil von LangGraph wie in <a href="lvl1.html#lvl1-s5">LVL 1, Station 5</a> (von Hand nachgebaut):</p>
+    <div class="grid2 gr-paar gr-paar-breit">
+      <figure class="card gr-karte">
+        <figcaption class="gr-titel">Das Team in der Übersicht</figcaption>
+        <div class="gr-mermaid" role="img" aria-label="Graph: __start__ führt zu koordinator. Von koordinator gehen gestrichelte Kanten zu datenbank-analyst, pruefer, berichtsautor und __end__. Von jedem Spezialisten führt eine feste Kante zurück zum koordinator.">
+<pre class="mermaid">graph TD;
+	__start__([&lt;p&gt;__start__&lt;/p&gt;]):::first
+	koordinator(koordinator)
+	datenbank_analyst(datenbank-analyst)
+	pruefer(pruefer)
+	berichtsautor(berichtsautor)
+	__end__([&lt;p&gt;__end__&lt;/p&gt;]):::last
+	__start__ --&gt; koordinator;
+	koordinator -.-&gt; datenbank_analyst;
+	koordinator -.-&gt; pruefer;
+	koordinator -.-&gt; berichtsautor;
+	koordinator -.-&gt; __end__;
+	datenbank_analyst --&gt; koordinator;
+	pruefer --&gt; koordinator;
+	berichtsautor --&gt; koordinator;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc</pre>
+        </div>
+        <p class="gr-fazit">Die Form kennst du: <code>llm ↔ tools</code> aus LVL 1. Der Koordinator ist ein Agent in seiner Schleife, seine „Tools“ sind andere Agenten.
+          Die gestrichelten Kanten wählt sein LLM, die Rückwege sind fest.</p>
+      </figure>
+      <figure class="card gr-karte">
+        <figcaption class="gr-titel">Aufgeklappt: <code>datenbank-analyst</code></figcaption>
+        <div class="gr-mermaid" role="img" aria-label="Graph: koordinator führt gestrichelt in einen Teilgraphen datenbank-analyst. Darin läuft eine eigene Schleife aus llm und tools. Antwortet das innere llm nur mit Text, geht es gestrichelt zurück zum koordinator.">
+<pre class="mermaid">graph TD;
+	__start__([&lt;p&gt;__start__&lt;/p&gt;]):::first
+	koordinator(koordinator)
+	__end__([&lt;p&gt;__end__&lt;/p&gt;]):::last
+	subgraph datenbank_analyst [" "]
+	da_llm(llm)
+	da_tools(tools)
+	end
+	__start__ --&gt; koordinator;
+	koordinator -.-&gt; da_llm;
+	da_llm -.-&gt; da_tools;
+	da_tools --&gt; da_llm;
+	da_llm -.-&gt; koordinator;
+	koordinator -.-&gt; __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc</pre>
+        </div>
+        <p class="gr-fazit">Der gelbe Kasten ist der <code>datenbank-analyst</code>. Hinter dem Knoten steckt ein ganzer <strong>Teilgraph</strong> mit eigener Schleife und eigenem, leerem Verlauf.
+          Eine Schleife in der Schleife. In LangGraph klappt <code>get_graph(xray=True)</code> die Teilgraphen so auf.</p>
+      </figure>
+    </div>
     <table class="tbl">
       <thead><tr><th>Agent</th><th>Rolle</th><th>Darf in die DB?</th><th>Warum so?</th></tr></thead>
       <tbody>
@@ -127,20 +179,99 @@
   <article class="station" id="lvl4-s3">
     <div class="crumb">LVL 4 · Station 3 · <span class="tag">Vergleich</span></div>
     <h3>Muster, Vor- und Nachteile</h3>
-    <div class="grid2 muster">
-      <div class="card"><h4>Koordinator–Spezialisten</h4>
-        <svg viewBox="0 0 220 90" class="mini" aria-hidden="true"><rect x="85" y="6" width="50" height="22" rx="4" class="mk"/><rect x="10" y="60" width="50" height="22" rx="4"/><rect x="85" y="60" width="50" height="22" rx="4"/><rect x="160" y="60" width="50" height="22" rx="4"/><path d="M110 28 L35 60 M110 28 V60 M110 28 L185 60"/></svg>
-        <p>Einer plant und verteilt Teilaufgaben, sammelt die Ergebnisse ein. <em>orchestrator–workers</em>. Unser <code>koordinator</code>.</p></div>
-      <div class="card"><h4>Pipeline</h4>
-        <svg viewBox="0 0 220 90" class="mini" aria-hidden="true"><rect x="5" y="34" width="50" height="22" rx="4"/><rect x="85" y="34" width="50" height="22" rx="4"/><rect x="165" y="34" width="50" height="22" rx="4"/><path d="M55 45 H85 M135 45 H165"/></svg>
-        <p>A → B → C, fest verdrahtet. Analyst → Prüfer → Autor in fester Reihenfolge. Eigentlich ein <em>Workflow</em>.</p></div>
-      <div class="card"><h4>Erzeuger–Prüfer</h4>
-        <svg viewBox="0 0 220 90" class="mini" aria-hidden="true"><rect x="30" y="34" width="60" height="22" rx="4"/><rect x="130" y="34" width="60" height="22" rx="4" class="mk"/><path d="M90 40 H130 M130 50 H90"/></svg>
-        <p>Einer erstellt, ein anderer kritisiert, bis die Qualität stimmt. <em>evaluator–optimizer</em>. Analyst + Prüfer.</p></div>
-      <div class="card"><h4>Parallel</h4>
-        <svg viewBox="0 0 220 90" class="mini" aria-hidden="true"><rect x="5" y="34" width="40" height="22" rx="4" class="mk"/><rect x="90" y="4" width="40" height="22" rx="4"/><rect x="90" y="34" width="40" height="22" rx="4"/><rect x="90" y="64" width="40" height="22" rx="4"/><rect x="175" y="34" width="40" height="22" rx="4" class="mk"/><path d="M45 45 L90 15 M45 45 H90 M45 45 L90 75 M130 15 L175 45 M130 45 H175 M130 75 L175 45"/></svg>
-        <p>Mehrere arbeiten gleichzeitig an Teilen, die Ergebnisse werden zusammengeführt. Je ein Analyst pro Klasse.</p></div>
+    <p>Die vier üblichen Muster, gezeichnet wie in LangGraph (von Hand nachgebaut). Lies die Kanten:
+      <strong>durchgezogen</strong> heißt, der Programmierer hat den nächsten Schritt festgelegt, <strong>gestrichelt</strong> heißt, ein LLM entscheidet zur Laufzeit.</p>
+    <div class="grid2 muster gr-muster">
+      <figure class="card gr-karte"><h4>Koordinator–Spezialisten</h4>
+        <div class="gr-mermaid" role="img" aria-label="Graph: koordinator mit gestrichelten Kanten zu analyst, pruefer, autor und __end__; feste Kanten zurück zum koordinator.">
+<pre class="mermaid">graph TD;
+	__start__([&lt;p&gt;__start__&lt;/p&gt;]):::first
+	koordinator(koordinator)
+	analyst(analyst)
+	pruefer(pruefer)
+	autor(autor)
+	__end__([&lt;p&gt;__end__&lt;/p&gt;]):::last
+	__start__ --&gt; koordinator;
+	koordinator -.-&gt; analyst;
+	koordinator -.-&gt; pruefer;
+	koordinator -.-&gt; autor;
+	koordinator -.-&gt; __end__;
+	analyst --&gt; koordinator;
+	pruefer --&gt; koordinator;
+	autor --&gt; koordinator;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc</pre>
+        </div>
+        <p>Einer plant und verteilt Teilaufgaben, sammelt die Ergebnisse ein. <em>orchestrator–workers</em>. Unser <code>koordinator</code>.
+          Gestrichelt: Reihenfolge und Anzahl der Aufträge wählt das LLM.</p></figure>
+      <figure class="card gr-karte"><h4>Pipeline</h4>
+        <div class="gr-mermaid" role="img" aria-label="Graph: __start__, analyst, pruefer, autor, __end__ hintereinander, nur feste Kanten.">
+<pre class="mermaid">graph TD;
+	__start__([&lt;p&gt;__start__&lt;/p&gt;]):::first
+	analyst(analyst)
+	pruefer(pruefer)
+	autor(autor)
+	__end__([&lt;p&gt;__end__&lt;/p&gt;]):::last
+	__start__ --&gt; analyst;
+	analyst --&gt; pruefer;
+	pruefer --&gt; autor;
+	autor --&gt; __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc</pre>
+        </div>
+        <p>A → B → C, fest verdrahtet. Analyst → Prüfer → Autor in fester Reihenfolge. Nur durchgezogene Kanten: eigentlich ein <em>Workflow</em>,
+          auch wenn in jedem Knoten ein Agent arbeitet.</p></figure>
+      <figure class="card gr-karte"><h4>Erzeuger–Prüfer</h4>
+        <div class="gr-mermaid" role="img" aria-label="Graph: __start__ zu analyst, fest weiter zu pruefer. Von pruefer gestrichelt zurück zu analyst oder zu __end__.">
+<pre class="mermaid">graph TD;
+	__start__([&lt;p&gt;__start__&lt;/p&gt;]):::first
+	analyst(analyst)
+	pruefer(pruefer)
+	__end__([&lt;p&gt;__end__&lt;/p&gt;]):::last
+	__start__ --&gt; analyst;
+	analyst --&gt; pruefer;
+	pruefer -.-&gt; analyst;
+	pruefer -.-&gt; __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc</pre>
+        </div>
+        <p>Einer erstellt, ein anderer kritisiert, bis die Qualität stimmt. <em>evaluator–optimizer</em>. Analyst + Prüfer.
+          Die Weiche sitzt beim Prüfer: nachbessern oder fertig. Ohne Rundenlimit kann das endlos kreisen.</p></figure>
+      <figure class="card gr-karte"><h4>Parallel</h4>
+        <div class="gr-mermaid" role="img" aria-label="Graph: __start__ verzweigt fest zu analyst_7a, analyst_8b und analyst_10a. Alle führen fest zu zusammenfuehren, dann zu __end__.">
+<pre class="mermaid">graph TD;
+	__start__([&lt;p&gt;__start__&lt;/p&gt;]):::first
+	analyst_7a(analyst_7a)
+	analyst_8b(analyst_8b)
+	analyst_10a(analyst_10a)
+	zusammenfuehren(zusammenfuehren)
+	__end__([&lt;p&gt;__end__&lt;/p&gt;]):::last
+	__start__ --&gt; analyst_7a;
+	__start__ --&gt; analyst_8b;
+	__start__ --&gt; analyst_10a;
+	analyst_7a --&gt; zusammenfuehren;
+	analyst_8b --&gt; zusammenfuehren;
+	analyst_10a --&gt; zusammenfuehren;
+	zusammenfuehren --&gt; __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc</pre>
+        </div>
+        <p>Mehrere arbeiten gleichzeitig an Teilen, die Ergebnisse werden zusammengeführt. Je ein Analyst pro Klasse.
+          Auch hier nur feste Kanten: Wer parallel arbeitet, steht vorher fest.</p></figure>
     </div>
+    <details class="tasks">
+      <summary>Graphen deuten</summary>
+      <ol>
+        <li>Zähle in jedem Muster die gestrichelten Kanten. Ordne die vier Muster auf einer Linie von „Workflow“ bis „Agent“ an.</li>
+        <li>Vergleiche den Koordinator-Graph mit dem Agenten-Graph aus <a href="lvl1.html#lvl1-s5">LVL 1, Station 5</a>. Was entspricht <code>tools</code>?</li>
+        <li>Wo würdest du beim Erzeuger–Prüfer ein Rundenlimit einbauen? Welche Kante wird dann zur festen Kante zu <code>__end__</code>?</li>
+        <li>Zeichne ein eigenes Muster: Der Koordinator schickt jeden Bericht zuerst an den <code>pruefer</code>, erst dann darf der <code>autor</code> ran. Welche Kanten werden fest?</li>
+      </ol>
+    </details>
     <div class="grid2">
       <div class="card good"><h4>✓ Warum mehrere Agenten?</h4><ul>
         <li><strong>Spezialisierung:</strong> kurze, klare Prompts statt eines Riesen-Prompts</li>
@@ -251,8 +382,10 @@
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="js/tests.js?v=20261124"></script>
-<script src="js/agentsim.js?v=20261124"></script>
-<script src="js/app.js?v=20261124"></script>
+<script src="js/tests.js?v=20261124c"></script>
+<script src="js/agentsim.js?v=20261124c"></script>
+<script src="js/app.js?v=20261124c"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script src="js/graphen.js?v=20261124c"></script>
 </body>
 </html>
