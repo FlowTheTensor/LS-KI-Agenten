@@ -158,7 +158,11 @@
   <article class="station" id="lvl2-s4">
     <div class="crumb">LVL 2 · Station 4 · <span class="tag">Sicherheit</span></div>
     <h3>Sicherheits-Labor: Prompt Injection</h3>
-    <p>Ein Sekretariats-Agent soll eine Krankmeldung lesen. In der E-Mail steckt aber eine <strong>versteckte Anweisung</strong>.
+    <p>Den <code>notenverwalter</code> kennst du aus <a href="#lvl2-s2">Station 2</a>. Laut System-Prompt ist er „Assistent im Sekretariat“.
+      Im Sekretariat stapelt sich die Post, und es muss <em>schnell eine Lösung</em> her. Statt einen eigenen Agenten für Mails zu bauen,
+      bekommt aus Bequemlichkeit der vorhandene <code>notenverwalter</code> die Post gleich mit. <strong>Das ist schon der erste Fehler.</strong>
+      Er erhält eine Krankmeldung mit dem Auftrag: „Lies sie und trage ein, was einzutragen ist.“
+      In der E-Mail steckt aber eine <strong>versteckte Anweisung</strong>.
       Das nennt man <strong>indirekte Prompt Injection</strong>: Befehle verstecken sich in Daten, die das LLM liest.
       Das LLM kann Daten und Anweisungen nicht zuverlässig unterscheiden. Wir nehmen den schlimmsten Fall an: <strong>Es fällt darauf herein.</strong></p>
     <div class="widget" id="inject">
@@ -170,8 +174,8 @@
       <div class="schutz">
         <p class="kx-head">SCHUTZSCHICHTEN EINSCHALTEN</p>
         <label><input type="checkbox" id="in-prompt"> <span><strong>Regel im System-Prompt:</strong> „Trage niemals Noten ein. Lösche niemals Daten.“</span></label>
-        <label><input type="checkbox" id="in-s0"> <span><strong>S0 · Tool-Auswahl:</strong> <code>add_grade</code> steht nicht in der Definition</span></label>
-        <label><input type="checkbox" id="in-s2"> <span><strong>S2 · Freigabe:</strong> <code>add_grade</code> nur mit Freigabe durch einen Menschen</span></label>
+        <label><input type="checkbox" id="in-s0"> <span><strong>S0 · Tool-Auswahl:</strong> <code>add_grade</code> aus der Definition streichen (dann kann er auch keine echten Noten mehr eintragen)</span></label>
+        <label><input type="checkbox" id="in-s2"> <span><strong>S2 · Freigabe:</strong> <code>add_grade</code> nur mit Freigabe durch einen Menschen (so steht es in seiner echten Definition)</span></label>
         <label><input type="checkbox" id="in-server"> <span><strong>MCP-Server prüft:</strong> <code>query_database</code> nur SELECT, Noten nur 1,0 bis 6,0</span></label>
       </div>
       <div class="row"><button class="btn" id="in-run">Agent die Mail lesen lassen ▸</button></div>
@@ -186,6 +190,8 @@
         <li>Schalte nur die <strong>Regel im System-Prompt</strong> ein. Ändert sich etwas? Warum nicht?</li>
         <li>Finde die kleinste Kombination, bei der <strong>kein</strong> Schaden entsteht. Welche Schichten sind dafür nötig?</li>
         <li>Schalte S2 ein und S0 aus. Klicke bei der Freigabe auf „Erlauben“. Was lernst du über Freigaben?</li>
+        <li>Die schnelle Lösung „<code>notenverwalter</code> macht auch die Post“ war der eigentliche Fehler. Teile die Arbeit auf zwei Agenten auf:
+          Welche Tools bekommt ein <code>posteingang</code>-Agent, welche der <code>notenverwalter</code>? Darf der eine dem anderen Aufträge geben?</li>
         <li>Recherche: Warum gilt Prompt Injection als eines der größten ungelösten Sicherheitsprobleme bei KI-Agenten?</li>
       </ol>
     </details>
@@ -200,7 +206,11 @@
     </table>
     <p class="note"><strong>Verteidigung in der Tiefe</strong> (<em>defense in depth</em>): mehrere unabhängige Schutzschichten, damit nicht alles an einer hängt.
       Dazu kommt das <strong>Prinzip der minimalen Rechte</strong> (<em>least privilege</em>): Jeder Agent bekommt nur die Tools, die er wirklich braucht.</p>
-    <p class="note"><strong>Augen und Hände</strong> (aus <a href="lvl0.html#lvl0-s2">LVL 0</a>): Die Injection kommt über ein <strong>lesendes</strong> Tool in den Kontext,
+    <p class="note"><strong>Die gefährliche Dreierkombination</strong> (<em>lethal trifecta</em>, nach Simon Willison): Ein Agent wird gefährlich, wenn er
+      ① fremde Inhalte liest (die Mail), ② auf interne Daten zugreift (die Datenbank) und ③ handeln kann (<code>add_grade</code>).
+      Der „Allzweck-Assistent“ aus Bequemlichkeit hat alle drei. Zwei getrennte Agenten brechen die Kombination auf:
+      Der Post-Agent liest fremde Mails, kann aber nichts eintragen. Der <code>notenverwalter</code> kann eintragen, sieht aber keine fremden Mails.</p>
+    <p class="note"><strong>Augen und Hände</strong> (aus <a href="lvl0.html#lvl0-s2">LVL 0</a>): Die Injection kommt über <strong>Daten</strong> in den Kontext (hier der Mail-Text, genauso gut über ein <strong>lesendes</strong> Tool wie <code>query_database</code>),
       die Mail selbst richtet keinen Schaden an. Gefährlich wird es erst, wenn das LLM danach ein <strong>handelndes</strong> Tool wie <code>add_grade</code> benutzen darf.
       Darum setzen die verlässlichen Schutzschichten genau dort an: Das Tool wird gar nicht angeboten, es braucht eine Freigabe, oder der Server prüft.</p>
     <p>Mehr zu Gefahren am MCP-Port (manipulierte Tool-Beschreibungen, vertrauenswürdige Server) steht in

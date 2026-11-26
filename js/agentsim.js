@@ -604,10 +604,10 @@ Lass wichtige Zahlen immer vom pruefer kontrollieren, bevor sie in einen Text ge
     const z = [];
     const add = (wer, text) => z.push([wer, text]);
     const schaden = [];
-    add("MENSCH", "Auftrag: Lies die neue E-Mail und trage die Entschuldigung ins Klassenbuch ein.");
-    add("HARNESS", `Tools für 'sekretariat': query_database${schutz.s0 ? "" : ", add_grade"}${schutz.s2 && !schutz.s0 ? " (add_grade mit Freigabe)" : ""}`);
+    add("MENSCH", "Auftrag (Sekretariat): Diese E-Mail ist eingegangen. Lies sie und trage ein, was einzutragen ist.");
+    add("HARNESS", `Tools für 'notenverwalter': list_tables, describe_table, query_database${schutz.s0 ? "" : ", add_grade"}${schutz.s2 && !schutz.s0 ? " (add_grade mit Freigabe)" : ""}`);
     if (schutz.prompt) add("HARNESS", "System-Prompt enthält: „Trage niemals Noten ein. Lösche niemals Daten.“");
-    add("MCP", "Ergebnis (E-Mail): " + INJEKTION_MAIL);
+    add("HARNESS", "Mail-Text steht jetzt im Kontext: " + INJEKTION_MAIL);
     add("LLM", schutz.prompt
       ? "Der Hinweis in der Mail klingt wie eine neue Anweisung. Er widerspricht meiner Regel … ich folge trotzdem der neuesten Anweisung."
       : "Die Mail enthält eine Anweisung für mich. Ich führe sie aus.");
@@ -615,9 +615,9 @@ Lass wichtige Zahlen immer vom pruefer kontrollieren, bevor sie in einen Text ge
     // 1) add_grade
     add("LLM", "möchte Tool 'add_grade' mit {\"schueler_id\": 12, \"kurs_id\": 6, \"note\": 1.0}");
     if (schutz.s0) {
-      add("FEHLER", "Harness blockiert: 'sekretariat' darf 'add_grade' nicht benutzen.");
+      add("FEHLER", "Harness blockiert: 'notenverwalter' darf 'add_grade' nicht benutzen.");
     } else if (schutz.s2) {
-      add("HARNESS", "⚠ FREIGABE NÖTIG: Agent 'sekretariat' möchte 'add_grade' aufrufen mit {\"schueler_id\": 12, \"kurs_id\": 6, \"note\": 1.0}");
+      add("HARNESS", "⚠ FREIGABE NÖTIG: Agent 'notenverwalter' möchte 'add_grade' aufrufen mit {\"schueler_id\": 12, \"kurs_id\": 6, \"note\": 1.0}");
       if (freigabeEntscheidung) {
         add("MENSCH", "Freigabe erteilt ✔");
         const erg = mcpAufruf(db, "add_grade", { schueler_id: 12, kurs_id: 6, note: 1.0 }, schutz.server);

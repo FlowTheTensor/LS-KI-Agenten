@@ -448,7 +448,7 @@
         if (i === fIdx) {
           const ja = await new Promise(res => {
             frage.hidden = false;
-            frage.innerHTML = `<p class="fq">⚠ <strong>FREIGABE NÖTIG:</strong> Agent 'sekretariat' möchte '<code>add_grade</code>' aufrufen mit <code>{"schueler_id": 12, "kurs_id": 6, "note": 1.0}</code></p>
+            frage.innerHTML = `<p class="fq">⚠ <strong>FREIGABE NÖTIG:</strong> Agent 'notenverwalter' möchte '<code>add_grade</code>' aufrufen mit <code>{"schueler_id": 12, "kurs_id": 6, "note": 1.0}</code></p>
               <div class="row"><button class="btn small" data-j>Erlauben</button><button class="btn ghost small" data-n>Ablehnen</button></div>`;
             $("[data-j]", frage).addEventListener("click", () => res(true));
             $("[data-n]", frage).addEventListener("click", () => res(false));
